@@ -12,6 +12,7 @@
 		550C23BA2C76006900FF9BDF /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550C23B92C76006900FF9BDF /* Item.swift */; };
 		550C23BC2C76006A00FF9BDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 550C23BB2C76006A00FF9BDF /* Assets.xcassets */; };
 		550C23BF2C76006A00FF9BDF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 550C23BE2C76006A00FF9BDF /* Preview Assets.xcassets */; };
+		550C23C72C7601BE00FF9BDF /* pokemon.json in Resources */ = {isa = PBXBuildFile; fileRef = 550C23C62C7601BE00FF9BDF /* pokemon.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		550C23B92C76006900FF9BDF /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		550C23BB2C76006A00FF9BDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		550C23BE2C76006A00FF9BDF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		550C23C62C7601BE00FF9BDF /* pokemon.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pokemon.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 		550C23B42C76006900FF9BDF /* PokedexApp */ = {
 			isa = PBXGroup;
 			children = (
+				550C23C52C76019900FF9BDF /* Data */,
 				550C23B52C76006900FF9BDF /* PokedexAppApp.swift */,
 				550C23B72C76006900FF9BDF /* ContentView.swift */,
 				550C23B92C76006900FF9BDF /* Item.swift */,
@@ -68,6 +71,14 @@
 				550C23BE2C76006A00FF9BDF /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		550C23C52C76019900FF9BDF /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				550C23C62C7601BE00FF9BDF /* pokemon.json */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,6 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				550C23BF2C76006A00FF9BDF /* Preview Assets.xcassets in Resources */,
+				550C23C72C7601BE00FF9BDF /* pokemon.json in Resources */,
 				550C23BC2C76006A00FF9BDF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
