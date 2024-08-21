@@ -1,32 +1,41 @@
-//
-//  PokemonDetailView.swift
-//  PokedexApp
-//
-//  Created by Håkon Korsnes on 21/08/2024.
-//
-
 import SwiftUI
 
 struct PokemonDetailView: View {
     @EnvironmentObject var viewModel: PokemonViewModel
     let pokemon: Pokemon
-    
+
     var body: some View {
         VStack {
             PokeDexView(pokemon: pokemon)
-            
-            HStack(alignment: .center, spacing: 10) {
-                Text("**Number**: \n#\(viewModel.pokemonDetails?.id ?? 0)")
-                Text("**Type**: \n\(viewModel.pokemonDetails?.types.map { $0.type.name.capitalized }.joined(separator: ", ") ?? "Unknown")")
-                Text("**Height**: \n\(viewModel.formatHeightWeight(value: viewModel.pokemonDetails?.height ?? 0)) m")
-                Text("**Weight**: \n\(viewModel.formatHeightWeight(value: viewModel.pokemonDetails?.weight ?? 0)) kg")
+
+            VStack(alignment: .leading, spacing: 10) {
+                Text("**ID**: \(viewModel.pokemonDetails?.id ?? 0)")
+                Text("**Weight**: \(viewModel.formatHeightWeight(value: viewModel.pokemonDetails?.weight ?? 0)) kg")
+                Text("**Height**: \(viewModel.formatHeightWeight(value: viewModel.pokemonDetails?.height ?? 0)) m")
+                Text("**Type**: \(viewModel.pokemonDetails?.types.map { $0.type.name.capitalized }.joined(separator: ", ") ?? "Unknown")")
             }
-            .padding()
+
+            Spacer()
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    viewModel.toggleFavoritePokemon(pokemon)
+                    // Toggle the save state
+                    addFavorite()
+                }) {
+                    Image(systemName: viewModel.isPokemonFavorited(pokemon) ? "heart.fill" : "heart")
+                        .foregroundColor(viewModel.isPokemonFavorited(pokemon) ? .red : .gray)
+                }
+            }
         }
         .onAppear {
             viewModel.getDetails(pokemon: pokemon)
         }
-        Spacer()
+    }
+
+    func addFavorite() {
+        let pokemon = Pokemon(name: "Gyarados", url: "https://pokeapi.co/api/v2/pokemon/130/")
     }
 }
 

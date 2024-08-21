@@ -15,6 +15,7 @@ class PokemonViewModel: ObservableObject {
     @Published var pokemonDetails: DetailedPokemon?
     @Published var searchText = ""
     @Published var isShiny = false
+    @Published var favoritedPokemon: [Pokemon] = []
 
     var filteredPokemon: [Pokemon] {
         return searchText == "" ? pokemonList : pokemonList.filter { $0.name.contains(searchText.lowercased()) }
@@ -49,4 +50,17 @@ class PokemonViewModel: ObservableObject {
         
         return string
     }
+
+        func toggleFavoritePokemon(_ pokemon: Pokemon) {
+            if let index = favoritedPokemon.firstIndex(of: pokemon) {
+                favoritedPokemon.remove(at: index) //Remove pokemon if its already favorited
+            } else {
+                favoritedPokemon.append(pokemon) // If not, favorite it
+            }
+        }
+
+        func isPokemonFavorited(_ pokemon: Pokemon) -> Bool {
+            return favoritedPokemon.contains(pokemon)
+        }
+
 }
