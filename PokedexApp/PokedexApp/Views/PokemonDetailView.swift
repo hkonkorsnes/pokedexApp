@@ -28,8 +28,6 @@ struct PokemonDetailView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     viewModel.toggleFavoritePokemon(pokemon)
-                    // Toggle the save state
-                    addFavorite()
                 }) {
                     Image(systemName: viewModel.isPokemonFavorited(pokemon) ? "heart.fill" : "heart")
                         .foregroundColor(viewModel.isPokemonFavorited(pokemon) ? .red : .gray)
@@ -39,10 +37,6 @@ struct PokemonDetailView: View {
         .onAppear {
             viewModel.getDetails(pokemon: pokemon)
         }
-    }
-
-    func addFavorite() {
-        let pokemon = Pokemon(name: "Gyarados", url: "https://pokeapi.co/api/v2/pokemon/130/")
     }
 }
 

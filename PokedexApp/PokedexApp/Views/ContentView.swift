@@ -49,19 +49,11 @@ struct ContentView: View {
             }
 
             NavigationStack {
-                SavedPokemonView()
+                FavoritedPokemonView()
                     .navigationTitle("Saved Pokémon")
             }
             .tabItem {
-                Label("Favorites", systemImage: "heart.fill")
-            }
-
-            NavigationStack {
-                RandomPokemonView()
-                    .navigationTitle("Who's that Pokémon?")
-            }
-            .tabItem {
-                Label("Who", systemImage: "person.fill.questionmark")
+                Label("Saved", systemImage: "heart.fill")
             }
         }
         .environmentObject(viewModel)

@@ -19,6 +19,7 @@
 		550C23D92C7605FF00FF9BDF /* PokemonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550C23D82C7605FF00FF9BDF /* PokemonDetailView.swift */; };
 		550C23DB2C76066500FF9BDF /* PokeDexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550C23DA2C76066500FF9BDF /* PokeDexView.swift */; };
 		550C23DD2C7616DB00FF9BDF /* FavoritedPokemonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550C23DC2C7616DB00FF9BDF /* FavoritedPokemonView.swift */; };
+		550C23E42C7629DC00FF9BDF /* RandomPokemonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550C23E32C7629DC00FF9BDF /* RandomPokemonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		550C23D82C7605FF00FF9BDF /* PokemonDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailView.swift; sourceTree = "<group>"; };
 		550C23DA2C76066500FF9BDF /* PokeDexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeDexView.swift; sourceTree = "<group>"; };
 		550C23DC2C7616DB00FF9BDF /* FavoritedPokemonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritedPokemonView.swift; sourceTree = "<group>"; };
+		550C23E32C7629DC00FF9BDF /* RandomPokemonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPokemonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				550C23B72C76006900FF9BDF /* ContentView.swift */,
+				550C23E32C7629DC00FF9BDF /* RandomPokemonView.swift */,
 				550C23DC2C7616DB00FF9BDF /* FavoritedPokemonView.swift */,
 				550C23D82C7605FF00FF9BDF /* PokemonDetailView.swift */,
 				550C23DA2C76066500FF9BDF /* PokeDexView.swift */,
@@ -215,6 +218,7 @@
 				550C23D22C76033100FF9BDF /* PokemonManager.swift in Sources */,
 				550C23DB2C76066500FF9BDF /* PokeDexView.swift in Sources */,
 				550C23D52C76036B00FF9BDF /* PokemonViewModel.swift in Sources */,
+				550C23E42C7629DC00FF9BDF /* RandomPokemonView.swift in Sources */,
 				550C23DD2C7616DB00FF9BDF /* FavoritedPokemonView.swift in Sources */,
 				550C23B62C76006900FF9BDF /* PokedexAppApp.swift in Sources */,
 				550C23CF2C7602B600FF9BDF /* PokemonModel.swift in Sources */,
