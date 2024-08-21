@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RandomPokemonView: View {
     @EnvironmentObject var viewModel: PokemonViewModel
+    @Environment(\.colorScheme) var colorScheme
     @AppStorage("randomPokemonID") private var randomPokemonID: String?
     @State private var randomPokemon: Pokemon?
 
@@ -18,12 +19,12 @@ struct RandomPokemonView: View {
                 if let pokemon = randomPokemon {
                     NavigationLink(destination: PokemonDetailView(pokemon: pokemon)) {
                         PokeDexView(pokemon: pokemon)
+                            .padding()
                             .blur(radius: 10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 16)
-                                    .stroke(.black, lineWidth: 2)
+                                    .stroke(colorScheme == .dark ? Color.white : Color.black, lineWidth: 2)
                             )
-                            .padding()
 
                     }
                 } else {
