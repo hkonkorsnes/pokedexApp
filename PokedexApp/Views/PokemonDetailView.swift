@@ -13,7 +13,7 @@ struct PokemonDetailView: View {
     
     var body: some View {
         VStack {
-            PokemonView(pokemon: pokemon)
+            PokeDexView(pokemon: pokemon)
             
             HStack(alignment: .center, spacing: 10) {
                 Text("**Number**: \n#\(viewModel.pokemonDetails?.id ?? 0)")

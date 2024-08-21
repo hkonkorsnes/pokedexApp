@@ -21,12 +21,27 @@ struct ContentView: View {
                     ForEach(viewModel.filteredPokemon) { pokemon in
                         NavigationLink(destination: PokemonDetailView(pokemon: pokemon)
                         ) {
-                            PokemonView(pokemon: pokemon)
+                            PokeDexView(pokemon: pokemon)
                         }
                     }
                 }
                 .animation(.easeInOut(duration: 0.3), value: viewModel.filteredPokemon.count)
                 .navigationTitle("PokéDex")
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Menu(content: {
+                            Button(role: .none) {
+                                viewModel.isShiny.toggle()
+                                print("Shiny shown: \(viewModel.isShiny)")
+                            } label: {
+                                Label("Toggle shiny variants", systemImage: "sparkles")
+                            }
+                        }, label: {
+                            Image(systemName: "ellipsis.circle")
+                                .imageScale(.large)
+                        })
+                    }
+                }
             }
             .searchable(text: $viewModel.searchText)
         }

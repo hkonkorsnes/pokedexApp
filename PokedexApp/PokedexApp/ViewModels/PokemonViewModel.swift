@@ -14,7 +14,8 @@ class PokemonViewModel: ObservableObject {
     @Published var pokemonList = [Pokemon]()
     @Published var pokemonDetails: DetailedPokemon?
     @Published var searchText = ""
-    
+    @Published var isShiny = false
+
     var filteredPokemon: [Pokemon] {
         return searchText == "" ? pokemonList : pokemonList.filter { $0.name.contains(searchText.lowercased()) }
     }
