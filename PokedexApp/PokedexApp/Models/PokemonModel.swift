@@ -20,7 +20,7 @@ class Pokemon: Decodable, Identifiable, Equatable {
     var name: String
     var url: String
 
-    static var samplePokemon = Pokemon(id: "151", name: "mew", url: "https://pokeapi.co/api/v2/pokemon/151/")
+    static var samplePokemon = Pokemon(id: "151", name: "Mew", url: "https://pokeapi.co/api/v2/pokemon/151/")
 
     init(id: String, name: String, url: String) {
         self.id = id
@@ -32,11 +32,16 @@ class Pokemon: Decodable, Identifiable, Equatable {
         case name
         case url
     }
-    required init(from decoder: any Decoder) throws {
+
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.decode(String.self, forKey: .name)
-        url = try container.decode(String.self, forKey: .url)
-        id = UUID().uuidString
+        self.name = try container.decode(String.self, forKey: .name)
+        self.url = try container.decode(String.self, forKey: .url)
+        self.id = UUID().uuidString
+    }
+
+    static func == (lhs: Pokemon, rhs: Pokemon) -> Bool {
+        return lhs.id == rhs.id && lhs.name == rhs.name && lhs.url == rhs.url
     }
 }
 
@@ -45,6 +50,12 @@ struct DetailedPokemon: Codable {
     let height: Int
     let weight: Int
     let types: [PokemonType]
+    let species: Species
+
+    struct Species: Codable {
+        let name: String
+        let url: String
+    }
 }
 
 struct PokemonType: Codable {
@@ -55,4 +66,27 @@ struct PokemonType: Codable {
 struct TypeDetail: Codable {
     let name: String
     let url: String
+}
+
+// MARK: - Structures for Species Data
+struct PokemonSpecies: Codable {
+    let flavorTextEntries: [FlavorTextEntry]
+
+    enum CodingKeys: String, CodingKey {
+        case flavorTextEntries = "flavor_text_entries"
+    }
+}
+
+struct FlavorTextEntry: Codable {
+    let flavorText: String
+    let language: Language
+
+    enum CodingKeys: String, CodingKey {
+        case flavorText = "flavor_text"
+        case language
+    }
+}
+
+struct Language: Codable {
+    let name: String
 }
