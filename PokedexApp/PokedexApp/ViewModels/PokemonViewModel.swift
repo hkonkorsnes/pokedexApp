@@ -12,13 +12,13 @@ class PokemonViewModel: ObservableObject {
     private let pokemonManager = PokemonManager()
     
     @Published var pokemonList = [Pokemon]()
-    @Published var pokemonDetails: DetailedPokemon?
+    @Published var pokemonDetails: [UUID: DetailedPokemon] = [:]
     @Published var searchText = ""
     @Published var isShiny = false
     @Published var favoritedPokemon: [Pokemon] = []
 
     var filteredPokemon: [Pokemon] {
-        return searchText == "" ? pokemonList : pokemonList.filter { $0.name.contains(searchText.lowercased()) }
+        return searchText.isEmpty ? pokemonList : pokemonList.filter { $0.name.contains(searchText.lowercased()) }
     }
     
     init() {
@@ -26,41 +26,69 @@ class PokemonViewModel: ObservableObject {
     }
     
     func getPokemonIndex(pokemon: Pokemon) -> Int {
-        if let index = self.pokemonList.firstIndex(of: pokemon) {
-            return index + 1
-        }
-        return 0
+        return pokemonDetails[pokemon.id]?.id ?? 0
     }
-    
-    func getDetails(pokemon: Pokemon) {
-        let id = getPokemonIndex(pokemon: pokemon)
-        
-        self.pokemonDetails = DetailedPokemon(id: 0, height: 0, weight: 0, types: [])
-        
-        pokemonManager.getDetailedPokemon(id: id) { data in
+
+    func getDetails(pokemon: Pokemon, completion: @escaping (DetailedPokemon?) -> Void) {
+        if let details = pokemonDetails[pokemon.id] {
+            completion(details)
+            return
+        }
+
+        pokemonManager.getDetailedPokemon(url: pokemon.url) { data in
             DispatchQueue.main.async {
-                self.pokemonDetails = data
+                if let data = data {
+                    self.pokemonDetails[pokemon.id] = data
+                    completion(data)
+                } else {
+                    completion(nil)
+                }
             }
         }
     }
     
     func formatHeightWeight(value: Int) -> String {
         let dValue = Double(value)
-        let string = String(format: "%.2f", dValue / 10)
-        
-        return string
+        return String(format: "%.2f", dValue / 10)
     }
 
-        func toggleFavoritePokemon(_ pokemon: Pokemon) {
-            if let index = favoritedPokemon.firstIndex(of: pokemon) {
-                favoritedPokemon.remove(at: index) //Remove pokemon if its already favorited
-            } else {
-                favoritedPokemon.append(pokemon) // If not, favorite it
-            }
+    func toggleFavoritePokemon(_ pokemon: Pokemon) {
+        if let index = favoritedPokemon.firstIndex(of: pokemon) {
+            favoritedPokemon.remove(at: index) // Remove Pokémon if it's already favorited
+        } else {
+            favoritedPokemon.append(pokemon) // If not, favorite it
         }
+    }
 
-        func isPokemonFavorited(_ pokemon: Pokemon) -> Bool {
-            return favoritedPokemon.contains(pokemon)
+    func isPokemonFavorited(_ pokemon: Pokemon) -> Bool {
+        return favoritedPokemon.contains(pokemon)
+    }
+
+    // Connects Pokémon type to a color
+    func color(forType type: String) -> Color {
+        switch type.lowercased() {
+        case "fire":
+            return Color.red
+        case "water":
+            return Color.blue
+        case "grass":
+            return Color.green
+        case "electric":
+            return Color.yellow
+        case "psychic":
+            return Color.purple
+        case "ice":
+            return Color.cyan
+        case "dragon":
+            return Color.orange
+        case "dark":
+            return Color.gray
+        case "fairy":
+            return Color.pink
+        case "normal":
+            return Color.brown
+        default:
+            return Color.gray
         }
-
+    }
 }

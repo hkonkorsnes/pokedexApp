@@ -14,14 +14,24 @@ class PokemonManager {
         
         return pokemon
     }
-    
-    func getDetailedPokemon(id: Int, _ completion:@escaping (DetailedPokemon) -> ()) {
-        Bundle.main.fetchData(url: "https://pokeapi.co/api/v2/pokemon/\(id)/", model: DetailedPokemon.self) { data in
-            completion(data)
-            print(data)
-            
-        } failure: { error in
-            print(error)
+
+    func getDetailedPokemon(url: String, completion: @escaping (DetailedPokemon?) -> Void) {
+        guard let url = URL(string: url) else {
+            completion(nil)
+            return
         }
+
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                let decoder = JSONDecoder()
+                if let detailedPokemon = try? decoder.decode(DetailedPokemon.self, from: data) {
+                    completion(detailedPokemon)
+                } else {
+                    completion(nil)
+                }
+            } else {
+                completion(nil)
+            }
+        }.resume()
     }
 }
