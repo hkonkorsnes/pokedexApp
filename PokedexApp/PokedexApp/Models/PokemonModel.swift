@@ -6,19 +6,38 @@
 //
 
 import Foundation
+import SwiftData
 
-struct PokemonPage: Codable {
+struct PokemonPage: Decodable {
     let count: Int
     let next: String
     let results: [Pokemon]
 }
 
-struct Pokemon: Codable, Identifiable, Equatable {
-    let id = UUID()
-    let name: String
-    let url: String
-    
-    static var samplePokemon = Pokemon(name: "gyarados", url: "https://pokeapi.co/api/v2/pokemon/shiny/130/")
+@Model
+class Pokemon: Decodable, Identifiable, Equatable {
+    var id: String
+    var name: String
+    var url: String
+
+    static var samplePokemon = Pokemon(id: "151", name: "mew", url: "https://pokeapi.co/api/v2/pokemon/151/")
+
+    init(id: String, name: String, url: String) {
+        self.id = id
+        self.name = name
+        self.url = url
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case name
+        case url
+    }
+    required init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        url = try container.decode(String.self, forKey: .url)
+        id = UUID().uuidString
+    }
 }
 
 struct DetailedPokemon: Codable {

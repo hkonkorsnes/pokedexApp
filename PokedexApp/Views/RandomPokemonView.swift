@@ -53,14 +53,13 @@ struct RandomPokemonView: View {
     private func randomizePokemon() {
         if let pokemon = viewModel.pokemonList.randomElement() {
             self.randomPokemon = pokemon
-            self.randomPokemonID = pokemon.id.uuidString
+            self.randomPokemonID = pokemon.id  // Save the ID as a string
         }
     }
 
     private func loadRandomPokemon() {
         if let savedID = randomPokemonID,
-           let uuid = UUID(uuidString: savedID),
-           let pokemon = viewModel.pokemonList.first(where: { $0.id == uuid }) {
+           let pokemon = viewModel.pokemonList.first(where: { $0.id == savedID }) {  // Compare with String id
             self.randomPokemon = pokemon
         } else {
             randomizePokemon()

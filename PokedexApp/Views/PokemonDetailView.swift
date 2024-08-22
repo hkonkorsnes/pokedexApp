@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct PokemonDetailView: View {
+
+    @Environment(\.modelContext) private var context
+
     @EnvironmentObject var viewModel: PokemonViewModel
+    
     let pokemon: Pokemon
 
     @State private var pokemonDetails: DetailedPokemon? = nil
@@ -47,12 +51,19 @@ struct PokemonDetailView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     viewModel.toggleFavoritePokemon(pokemon)
+                    // Toggle the save state
+                    addFavorite()
                 }) {
                     Image(systemName: viewModel.isPokemonFavorited(pokemon) ? "heart.fill" : "heart")
                         .foregroundColor(viewModel.isPokemonFavorited(pokemon) ? .red : .gray)
                 }
             }
         }
+    }
+
+    func addFavorite() {
+        let pokemon = Pokemon(id: "151", name: "Mew", url: "https://pokeapi.co/api/v2/pokemon/151/")
+        context.insert(pokemon)
     }
 }
 

@@ -17,28 +17,27 @@ struct ContentView: View {
                     let adaptiveColumns = [
                         GridItem(.adaptive(minimum: 150))
                     ]
-                    LazyVGrid(columns: adaptiveColumns, spacing: 10) {
+                    LazyVGrid(columns: adaptiveColumns, spacing: 20) {
                         ForEach(viewModel.filteredPokemon) { pokemon in
                             NavigationLink(destination: PokemonDetailView(pokemon: pokemon)) {
                                 PokeDexView(pokemon: pokemon)
                             }
                         }
                     }
-                    .animation(.easeIn(duration: 0.3), value: viewModel.filteredPokemon.count)
+                    .padding()
                     .navigationTitle("Pokédex")
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
-                            Menu(content: {
-                                Button(role: .none) {
+                            Menu {
+                                Button(action: {
                                     viewModel.isShiny.toggle()
-                                    print("Shiny shown: \(viewModel.isShiny)")
-                                } label: {
+                                }) {
                                     Label("Toggle shiny variants", systemImage: "sparkles")
                                 }
-                            }, label: {
+                            } label: {
                                 Image(systemName: "ellipsis.circle")
                                     .imageScale(.large)
-                            })
+                            }
                         }
                     }
                 }

@@ -25,32 +25,35 @@ struct PokeDexView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: dimensions, height: dimensions)
+                        .shadow(radius: 10)
                 case .failure:
                     Image(systemName: "xmark.octagon.fill")
                         .resizable()
                         .scaledToFit()
                         .frame(width: dimensions, height: dimensions)
                         .foregroundColor(.red)
+                        .shadow(radius: 10)
                 @unknown default:
                     Image(systemName: "questionmark")
                         .resizable()
                         .scaledToFit()
                         .frame(width: dimensions, height: dimensions)
                         .foregroundColor(.gray)
+                        .shadow(radius: 10)
                 }
             }
             Text("\(pokemon.name.capitalized)")
-                .font(.system(size: 24, weight: .bold, design: .monospaced))
-                .foregroundStyle(.white)
-                .padding(.bottom, 8)
+                .font(.system(size: 24, weight: .bold, design: .rounded))
+                .foregroundColor(.white)
+                .padding(.top, 8)
         }
-        .background(backgroundColor)
+        .background(LinearGradient(gradient: Gradient(colors: [backgroundColor.opacity(0.8), backgroundColor.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.primary, lineWidth: 2)
+                .stroke(Color.white.opacity(0.7), lineWidth: 2)
         )
-        .padding(.horizontal)
+        .shadow(color: backgroundColor.opacity(0.6), radius: 10, x: 0, y: 5)
         .onAppear {
             viewModel.getDetails(pokemon: pokemon) { details in
                 if let primaryType = details?.types.first?.type.name {
@@ -60,6 +63,8 @@ struct PokeDexView: View {
                 }
             }
         }
+        .padding(.horizontal)
+
     }
 
     private func getPokemonImageURL() -> String {
