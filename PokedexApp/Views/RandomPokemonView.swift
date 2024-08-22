@@ -18,21 +18,22 @@ struct RandomPokemonView: View {
             VStack {
                 if let pokemon = randomPokemon {
                     NavigationLink(destination: PokemonDetailView(pokemon: pokemon)) {
-                        PokeDexView(pokemon: pokemon)
-                            .padding()
-                            .blur(radius: 10)
+                        whosThatPokemonView()
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 16)
                                     .stroke(colorScheme == .dark ? Color.white : Color.black, lineWidth: 2)
                             )
-
+                            .padding()
                     }
                 } else {
                     Text("Press the button to show a random Pokémon")
                         .padding()
                 }
                 Spacer()
-                Button(action: randomizePokemon) {
+                Button(action: {
+                    randomizePokemon()
+                }) {
                     Text("\(Image(systemName: "shuffle")) Randomize Pokémon")
                         .font(.headline)
                         .padding()
@@ -42,10 +43,11 @@ struct RandomPokemonView: View {
                 }
                 .padding()
             }
-            .onAppear(perform: loadRandomPokemon)
+            .onAppear {
+                loadRandomPokemon()
+            }
             .navigationTitle("Who's that Pokémon?")
         }
-        Spacer()
     }
 
     private func randomizePokemon() {
@@ -63,5 +65,11 @@ struct RandomPokemonView: View {
         } else {
             randomizePokemon()
         }
+    }
+
+    private func whosThatPokemonView() -> some View {
+        Image("whosThatPokemon")
+            .resizable()
+            .scaledToFit()
     }
 }
