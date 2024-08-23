@@ -67,17 +67,19 @@ struct RandomPokemonView: View {
                 .fill(.regularMaterial)
                 .shadow(radius: 5)
 
-            VStack {
+            HStack(alignment: .center) {
                 blackedOutPokemonImage(imageURL)
-                    .frame(width: 120, height: 120)
 
-                HStack {
+                VStack {
                     Spacer()
                     Text("Tap to reveal \(Image(systemName: "chevron.right"))")
                         .font(.headline)
                         .fontWeight(.bold)
                         .foregroundStyle(.primary)
                 }
+                .frame(maxHeight: .infinity)
+                .padding(.bottom, 8)
+
             }
             .padding()
         }
@@ -93,9 +95,10 @@ struct RandomPokemonView: View {
                     .frame(width: 120, height: 120)
             case .success(let image):
                 image
+                    .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
-                    .colorMultiply(.black) // Black out the image
+                    .foregroundStyle(colorScheme == .dark ? .white : .black) // Black/white out the image
                     .shadow(radius: 10)
             case .failure:
                 ProgressView()

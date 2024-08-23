@@ -156,13 +156,13 @@
 				550C23E32C7629DC00FF9BDF /* RandomPokemonView.swift */,
 				550C23DC2C7616DB00FF9BDF /* FavoritedPokemonView.swift */,
 				550C23D82C7605FF00FF9BDF /* PokemonDetailView.swift */,
-				550C23E72C77C82500FF9BDF /* DetailSubViews */,
+				550C23E72C77C82500FF9BDF /* DetailSubviews */,
 				550C23DA2C76066500FF9BDF /* PokeDexView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		550C23E72C77C82500FF9BDF /* DetailSubViews */ = {
+		550C23E72C77C82500FF9BDF /* DetailSubviews */ = {
 			isa = PBXGroup;
 			children = (
 				550C23E82C77C84100FF9BDF /* PokemonDetailHeaderView.swift */,
@@ -171,7 +171,7 @@
 				550C23EE2C77C93000FF9BDF /* PokemonDetailsDetailsView.swift */,
 				550C23F02C77CA4600FF9BDF /* PokemonDetailItemView.swift */,
 			);
-			path = DetailSubViews;
+			path = DetailSubviews;
 			sourceTree = "<group>";
 		};
 		550C23F22C78CFC500FF9BDF /* Persistence */ = {
