@@ -24,6 +24,8 @@ struct ContentView: View {
         ]
     }
 
+    @Namespace private var detailAnimationNamespace
+
     var body: some View {
         TabView {
             NavigationStack {
@@ -38,6 +40,7 @@ struct ContentView: View {
                                         )
                                     ), pokemon: pokemon
                                 )
+                                .navigationTransition(.zoom(sourceID: "pokemon", in: detailAnimationNamespace))
                             ) {
                                 PokeDexView(pokemon: pokemon)
                             }
