@@ -15,7 +15,7 @@ struct PokemonDetailItemView: View {
         VStack(alignment: .center) {
             Text(label)
                 .font(.caption)
-                .foregroundColor(.gray)
+                .foregroundStyle(.gray)
             Text(value)
                 .font(.headline)
                 .fontWeight(.bold)

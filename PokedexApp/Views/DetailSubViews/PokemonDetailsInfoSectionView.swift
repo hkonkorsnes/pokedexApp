@@ -20,7 +20,7 @@ struct PokemonDetailsInfoSectionView: View {
                 .padding(.horizontal)
             Text(infoText)
                 .font(.body)
-                .foregroundColor(.primary)
+                .foregroundStyle(.primary)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal)
         }

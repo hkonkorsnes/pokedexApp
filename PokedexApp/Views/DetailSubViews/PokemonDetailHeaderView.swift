@@ -21,7 +21,7 @@ struct PokemonDetailHeaderView: View {
                 Text(pokemon.name.capitalized)
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
             }
             .padding(.bottom)
         }
@@ -60,13 +60,13 @@ struct PokemonDetailHeaderView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 270, height: 270)
-                    .foregroundColor(.red)
+                    .foregroundStyle(.red)
             @unknown default:
                 Image(systemName: "questionmark")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 270, height: 270)
-                    .foregroundColor(.gray)
+                    .foregroundStyle(.gray)
             }
         }
     }

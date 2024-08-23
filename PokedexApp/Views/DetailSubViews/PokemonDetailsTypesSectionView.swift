@@ -19,7 +19,7 @@ struct PokemonDetailsTypesSectionView: View {
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
                     .background(viewModel.color(forType: typeInfo.type.name).opacity(0.2))
-                    .foregroundColor(viewModel.color(forType: typeInfo.type.name))
+                    .foregroundStyle(viewModel.color(forType: typeInfo.type.name))
                     .cornerRadius(20)
             }
         }

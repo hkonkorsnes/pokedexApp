@@ -48,7 +48,7 @@ struct RandomPokemonView: View {
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(Color.accentColor)
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
                     .cornerRadius(10)
                 }
             }
@@ -74,7 +74,7 @@ struct RandomPokemonView: View {
                     Text("Tap to reveal \(Image(systemName: "chevron.right"))")
                         .font(.headline)
                         .fontWeight(.bold)
-                        .foregroundColor(.primary)
+                        .foregroundStyle(.primary)
                 }
             }
             .padding()
@@ -100,13 +100,13 @@ struct RandomPokemonView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 120, height: 120)
-                    .foregroundColor(.red)
+                    .foregroundStyle(.red)
             @unknown default:
                 Image(systemName: "questionmark")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 120, height: 120)
-                    .foregroundColor(.gray)
+                    .foregroundStyle(.gray)
             }
         }
     }

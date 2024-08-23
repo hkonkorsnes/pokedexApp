@@ -97,7 +97,7 @@ struct PokemonDetailView: View {
             viewModel.toggleFavoritePokemon(pokemon)
         }) {
             Image(systemName: viewModel.isPokemonFavorited(pokemon) ? "heart.fill" : "heart")
-                .foregroundColor(viewModel.isPokemonFavorited(pokemon) ? .red : .gray)
+                .foregroundStyle(viewModel.isPokemonFavorited(pokemon) ? .red : .gray)
         }
     }
     

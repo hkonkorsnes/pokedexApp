@@ -31,20 +31,20 @@ struct PokeDexView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: dimensions, height: dimensions)
-                        .foregroundColor(.red)
+                        .foregroundStyle(.red)
                         .shadow(radius: 10)
                 @unknown default:
                     Image(systemName: "questionmark")
                         .resizable()
                         .scaledToFit()
                         .frame(width: dimensions, height: dimensions)
-                        .foregroundColor(.gray)
+                        .foregroundStyle(.gray)
                         .shadow(radius: 10)
                 }
             }
             Text("\(pokemon.name.capitalized)")
                 .font(.system(size: 24, weight: .bold, design: .rounded))
-                .foregroundColor(.white)
+                .foregroundStyle(.white)
                 .padding(.top, 8)
         }
         .background(LinearGradient(gradient: Gradient(colors: [backgroundColor.opacity(0.8), backgroundColor.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
