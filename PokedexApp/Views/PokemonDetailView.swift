@@ -37,7 +37,6 @@ struct PokemonDetailView: View {
                 }
                 Spacer()
             }
-            .onAppear(perform: fetchPokemonDetails)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -46,6 +45,7 @@ struct PokemonDetailView: View {
         }
         .onAppear {
             viewModel.onAppear()
+            fetchPokemonDetails()
         }
     }
 

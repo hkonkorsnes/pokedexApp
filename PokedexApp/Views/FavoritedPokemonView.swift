@@ -34,7 +34,11 @@ struct FavoritedPokemonView: View {
                         )
                     ) {
                         HStack {
-                            AsyncImage(url: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(pokemonViewModel.getPokemonIndex(pokemon: pokemon)).png")) { image in
+                            AsyncImage(
+                                url: URL(
+                                    string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(pokemonViewModel.getPokemonIndex(pokemon: pokemon)).png"
+                                )
+                            ) { image in
                                 image
                                     .resizable()
                                     .scaledToFit()

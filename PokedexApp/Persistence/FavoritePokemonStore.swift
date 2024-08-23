@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 final class FavoritePokemonStore: ObservableObject {
-    @Published var pokemon = [Pokemon]()
+    @Published var favorites = [Pokemon]()
 
     private var modelContext: ModelContext
 
@@ -23,7 +23,7 @@ final class FavoritePokemonStore: ObservableObject {
     func fetchPokemon() {
         let fetchRequest = FetchDescriptor<Pokemon>(sortBy: [SortDescriptor(\.name)])
         do {
-            self.pokemon = try modelContext.fetch(fetchRequest)
+            self.favorites = try modelContext.fetch(fetchRequest)
         } catch {
             print("Error fetching")
         }

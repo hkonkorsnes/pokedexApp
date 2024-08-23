@@ -18,26 +18,6 @@ final class FavoritedPokemonViewModel: ObservableObject {
 
     func onAppear() {
         store.fetchPokemon()
-        favoritedPokemon = store.pokemon
-    }
-
-    func addFavorite(pokemon: Pokemon) {
-        store.save(pokemon: pokemon)
-        favoritedPokemon = store.pokemon
-    }
-
-    func toggleFavoritePokemon(_ pokemon: Pokemon) {
-        if store.pokemon.contains(pokemon) {
-            store.delete(pokemon: pokemon)
-        } else {
-            store.save(pokemon: pokemon)
-        }
-
-        store.fetchPokemon()
-        favoritedPokemon = store.pokemon
-    }
-
-    func isPokemonFavorited(_ pokemon: Pokemon) -> Bool {
-        return store.pokemon.contains(pokemon)
+        favoritedPokemon = store.favorites
     }
 }

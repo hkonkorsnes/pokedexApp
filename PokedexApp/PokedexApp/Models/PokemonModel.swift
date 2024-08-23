@@ -17,6 +17,7 @@ struct PokemonPage: Decodable {
 @Model
 class Pokemon: Decodable, Identifiable, Equatable {
     var id: String
+    @Attribute(.unique)
     var name: String
     var url: String
 
