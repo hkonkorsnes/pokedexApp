@@ -1,5 +1,5 @@
 //
-//  PokedexAppApp.swift
+//  PokedexApp.swift
 //  PokedexApp
 //
 //  Created by Håkon Korsnes on 21/08/2024.
@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct PokedexAppApp: App {
+struct PokedexApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
