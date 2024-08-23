@@ -18,14 +18,14 @@ struct RandomPokemonView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                if let pokemon = randomPokemon, let url = pokemonImageURL {
+                if let randomPokemon, let url = pokemonImageURL {
                     NavigationLink(
                         destination: PokemonDetailView(
                             viewModel: PokemonDetailViewModel(
                                 favoritedPokemonStore: FavoritePokemonStore(
                                     modelContext: modelContext
                                 )
-                            ), pokemon: pokemon
+                            ), pokemon: randomPokemon
                         )
                     ) {
                         pokemonCardView(with: url)
@@ -54,7 +54,9 @@ struct RandomPokemonView: View {
             }
             .padding()
             .navigationTitle("Who's that Pokémon?")
-            .onAppear(perform: loadRandomPokemon)
+            .onAppear {
+                loadRandomPokemon()
+            }
         }
     }
 
@@ -106,28 +108,35 @@ struct RandomPokemonView: View {
     }
 
     // MARK: - Functions
-    private func getPokemonImageURL(for pokemon: Pokemon) -> String {
+    private func getPokemonImageURL(id: String) -> String {
         return viewModel.isShiny
-            ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/\(viewModel.getPokemonIndex(pokemon: pokemon)).png"
-            : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(viewModel.getPokemonIndex(pokemon: pokemon)).png"
+            ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/\(id).png"
+            : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(id).png"
     }
 
     private func randomizePokemon() {
         if let pokemon = viewModel.pokemonList.randomElement() {
-            self.randomPokemon = pokemon
-            self.randomPokemonID = pokemon.id  // Save the ID
-            self.pokemonImageURL = getPokemonImageURL(for: pokemon)
+            viewModel.getDetails(pokemon: pokemon) { _ in
+                self.randomPokemon = pokemon
+                self.randomPokemonID = pokemon.id  // Save the ID
+                self.pokemonImageURL = getPokemonImageURL(id: pokemon.id)
+            }
         }
     }
 
     private func loadRandomPokemon() {
-        if let savedID = randomPokemonID,
-           let pokemon = viewModel.pokemonList.first(where: { $0.id == savedID }) {
-            self.randomPokemon = pokemon
-            self.pokemonImageURL = getPokemonImageURL(for: pokemon)
-        } else {
+        guard let randomPokemonID else {
             randomizePokemon()
+            return
         }
+
+        guard let pokemon = viewModel.pokemonList.first(where: { $0.id == randomPokemonID }) else {
+            randomizePokemon()
+            return
+        }
+
+        self.randomPokemon = pokemon
+        self.pokemonImageURL = getPokemonImageURL(id: pokemon.id)
     }
 }
 
