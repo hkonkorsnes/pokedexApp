@@ -52,7 +52,7 @@ struct FavoritedPokemonView: View {
                         }
                     }
                 }
-                .listStyle(PlainListStyle())
+                .listStyle(.insetGrouped)
             }
         }
         .navigationTitle("Favorite Pokémon")
