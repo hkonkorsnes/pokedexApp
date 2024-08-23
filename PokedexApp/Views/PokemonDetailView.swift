@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PokemonDetailView: View {
     @Environment(\.modelContext) private var context
@@ -103,8 +104,17 @@ struct PokemonDetailView: View {
     
 }
 
-#warning("todo")
-//#Preview {
-//    PokemonDetailView(pokemon: Pokemon.samplePokemon)
-//        .environmentObject(PokemonViewModel())
-//}
+#Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Pokemon.self, configurations: config)
+    let pokemon = Pokemon.samplePokemon
+
+    PokemonDetailView(
+        viewModel: PokemonDetailViewModel(
+            favoritedPokemonStore: FavoritePokemonStore(
+                modelContext: ModelContext(container)
+            )
+        ), pokemon: Pokemon.samplePokemon
+    )    
+    .environmentObject(PokemonViewModel())
+}
