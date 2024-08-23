@@ -96,17 +96,11 @@ struct RandomPokemonView: View {
                     .colorMultiply(.black) // Black out the image
                     .shadow(radius: 10)
             case .failure:
-                Image(systemName: "xmark.octagon.fill")
-                    .resizable()
-                    .scaledToFit()
+                ProgressView()
                     .frame(width: 120, height: 120)
-                    .foregroundStyle(.red)
             @unknown default:
-                Image(systemName: "questionmark")
-                    .resizable()
-                    .scaledToFit()
+                ProgressView()
                     .frame(width: 120, height: 120)
-                    .foregroundStyle(.gray)
             }
         }
     }

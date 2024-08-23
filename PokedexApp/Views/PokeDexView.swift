@@ -25,21 +25,14 @@ struct PokeDexView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: dimensions, height: dimensions)
-                        .shadow(radius: 10)
-                case .failure:
-                    Image(systemName: "xmark.octagon.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: dimensions, height: dimensions)
-                        .foregroundStyle(.red)
-                        .shadow(radius: 10)
-                @unknown default:
-                    Image(systemName: "questionmark")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: dimensions, height: dimensions)
                         .foregroundStyle(.gray)
                         .shadow(radius: 10)
+                case .failure:
+                    ProgressView()
+                        .frame(width: dimensions, height: dimensions)
+                @unknown default:
+                    ProgressView()
+                        .frame(width: dimensions, height: dimensions)
                 }
             }
             Text("\(pokemon.name.capitalized)")

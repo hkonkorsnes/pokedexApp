@@ -56,17 +56,12 @@ struct PokemonDetailHeaderView: View {
                     .frame(width: 270, height: 270)
                     .shadow(radius: 10)
             case .failure:
-                Image(systemName: "xmark.octagon.fill")
-                    .resizable()
-                    .scaledToFit()
+                ProgressView()
                     .frame(width: 270, height: 270)
-                    .foregroundStyle(.red)
             @unknown default:
-                Image(systemName: "questionmark")
-                    .resizable()
-                    .scaledToFit()
+                ProgressView()
                     .frame(width: 270, height: 270)
-                    .foregroundStyle(.gray)
+
             }
         }
     }
