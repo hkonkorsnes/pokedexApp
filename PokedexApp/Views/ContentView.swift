@@ -9,16 +9,26 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @StateObject var viewModel = PokemonViewModel()
+
+    private var columns: [GridItem] {
+        if dynamicTypeSize.isAccessibilitySize {
+            return [
+                GridItem(.flexible())
+            ]
+        }
+
+        return [
+            GridItem(.adaptive(minimum: 150))
+        ]
+    }
 
     var body: some View {
         TabView {
             NavigationStack {
                 ScrollView {
-                    let adaptiveColumns = [
-                        GridItem(.adaptive(minimum: 150))
-                    ]
-                    LazyVGrid(columns: adaptiveColumns, spacing: 20) {
+                    LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(viewModel.filteredPokemon) { pokemon in
                             NavigationLink(
                                 destination: PokemonDetailView(
@@ -61,7 +71,7 @@ struct ContentView: View {
                     viewModel: FavoritedPokemonViewModel(
                         favoritedPokemonStore: FavoritePokemonStore(modelContext: modelContext)
                     )
-                ) 
+                )
                 .navigationTitle("Saved Pokémon")
             }
             .tabItem {

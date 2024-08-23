@@ -36,10 +36,13 @@ struct PokeDexView: View {
                 }
             }
             Text("\(pokemon.name.capitalized)")
-                .font(.system(size: 24, weight: .bold, design: .rounded))
+                .font(.title2)
+                .fontWeight(.bold)
+                .fontDesign(.rounded)
                 .foregroundStyle(.white)
-                .padding(.top, 8)
+                .padding()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(LinearGradient(gradient: Gradient(colors: [backgroundColor.opacity(0.8), backgroundColor.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay(
