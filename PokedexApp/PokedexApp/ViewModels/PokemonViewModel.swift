@@ -10,12 +10,11 @@ import SwiftUI
 
 class PokemonViewModel: ObservableObject {
     private let pokemonManager = PokemonManager()
-    
+
     @Published var pokemonList = [Pokemon]()
     @Published var pokemonDetails: [String: DetailedPokemon] = [:]  // Use String as the key type
     @Published var searchText = ""
     @Published var isShiny = false
-    @Published var favoritedPokemon: [Pokemon] = []
     
     var filteredPokemon: [Pokemon] {
         return searchText.isEmpty ? pokemonList : pokemonList.filter { $0.name.contains(searchText.lowercased()) }
@@ -73,18 +72,6 @@ class PokemonViewModel: ObservableObject {
     func formatHeightWeight(value: Int) -> String {
         let dValue = Double(value)
         return String(format: "%.2f", dValue / 10)
-    }
-    
-    func toggleFavoritePokemon(_ pokemon: Pokemon) {
-        if let index = favoritedPokemon.firstIndex(of: pokemon) {
-            favoritedPokemon.remove(at: index)  // Remove Pokémon if it's already favorited
-        } else {
-            favoritedPokemon.append(pokemon)  // If not, favorite it
-        }
-    }
-    
-    func isPokemonFavorited(_ pokemon: Pokemon) -> Bool {
-        return favoritedPokemon.contains(pokemon)
     }
     
     // Connects Pokémon type to a color

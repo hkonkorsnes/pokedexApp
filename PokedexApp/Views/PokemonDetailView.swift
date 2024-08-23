@@ -9,7 +9,8 @@ import SwiftUI
 
 struct PokemonDetailView: View {
     @Environment(\.modelContext) private var context
-    @EnvironmentObject var viewModel: PokemonViewModel
+    @EnvironmentObject var pokemonViewModel: PokemonViewModel
+    @ObservedObject var viewModel: PokemonDetailViewModel
 
     let pokemon: Pokemon
 
@@ -23,13 +24,13 @@ struct PokemonDetailView: View {
                 if let details = pokemonDetails {
                     PokemonDetailHeaderView(
                         pokemon: pokemon,
-                        backgroundColor: viewModel.color(forType: details.types.first?.type.name ?? "unknown"),
+                        backgroundColor: pokemonViewModel.color(forType: details.types.first?.type.name ?? "unknown"),
                         imageUrl: getPokemonImageURL()
                     )
 
-                    PokemonDetailsTypesSectionView(types: details.types, viewModel: viewModel)
+                    PokemonDetailsTypesSectionView(types: details.types, viewModel: pokemonViewModel)
                     PokemonDetailsInfoSectionView(pokemonName: pokemon.name, infoText: formatInfoText(infoText))
-                    DetailsSectionView(details: details, viewModel: viewModel)
+                    DetailsSectionView(details: details, viewModel: pokemonViewModel)
                 } else {
                     Text("Loading...")
                         .padding()
@@ -43,17 +44,20 @@ struct PokemonDetailView: View {
                 favoriteButton
             }
         }
+        .onAppear {
+            viewModel.onAppear()
+        }
     }
 
     // MARK: - Helper Functions
     private func getPokemonImageURL() -> String {
-        let index = viewModel.getPokemonIndex(pokemon: pokemon)
+        let index = pokemonViewModel.getPokemonIndex(pokemon: pokemon)
         let baseUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
-        return viewModel.isShiny ? "\(baseUrl)shiny/\(index).png" : "\(baseUrl)\(index).png"
+        return pokemonViewModel.isShiny ? "\(baseUrl)shiny/\(index).png" : "\(baseUrl)\(index).png"
     }
 
     private func fetchPokemonDetails() {
-        viewModel.getDetails(pokemon: pokemon) { details in
+        pokemonViewModel.getDetails(pokemon: pokemon) { details in
             if let details = details {
                 self.pokemonDetails = details
                 fetchPokemonSpecies(details.species.url)
@@ -64,7 +68,7 @@ struct PokemonDetailView: View {
     }
 
     private func fetchPokemonSpecies(_ url: String) {
-        viewModel.getSpecies(url: url) { species in
+        pokemonViewModel.getSpecies(url: url) { species in
             if let species = species {
                 self.pokemonSpecies = species
             } else {
@@ -91,19 +95,16 @@ struct PokemonDetailView: View {
     private var favoriteButton: some View {
         Button(action: {
             viewModel.toggleFavoritePokemon(pokemon)
-            addFavorite()
         }) {
             Image(systemName: viewModel.isPokemonFavorited(pokemon) ? "heart.fill" : "heart")
                 .foregroundColor(viewModel.isPokemonFavorited(pokemon) ? .red : .gray)
         }
     }
-
-    private func addFavorite() {
-        context.insert(pokemon)
-    }
+    
 }
 
-#Preview {
-    PokemonDetailView(pokemon: Pokemon.samplePokemon)
-        .environmentObject(PokemonViewModel())
-}
+#warning("todo")
+//#Preview {
+//    PokemonDetailView(pokemon: Pokemon.samplePokemon)
+//        .environmentObject(PokemonViewModel())
+//}

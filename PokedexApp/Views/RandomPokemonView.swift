@@ -10,6 +10,7 @@ import SwiftUI
 struct RandomPokemonView: View {
     @EnvironmentObject var viewModel: PokemonViewModel
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.modelContext) var modelContext
     @AppStorage("randomPokemonID") private var randomPokemonID: String?
     @State private var randomPokemon: Pokemon?
     @State private var pokemonImageURL: String?
@@ -18,7 +19,15 @@ struct RandomPokemonView: View {
         NavigationStack {
             VStack(spacing: 20) {
                 if let pokemon = randomPokemon, let url = pokemonImageURL {
-                    NavigationLink(destination: PokemonDetailView(pokemon: pokemon)) {
+                    NavigationLink(
+                        destination: PokemonDetailView(
+                            viewModel: PokemonDetailViewModel(
+                                favoritedPokemonStore: FavoritePokemonStore(
+                                    modelContext: modelContext
+                                )
+                            ), pokemon: pokemon
+                        )
+                    ) {
                         pokemonCardView(with: url)
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                     }

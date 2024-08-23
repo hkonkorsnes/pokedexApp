@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.modelContext) var modelContext
     @StateObject var viewModel = PokemonViewModel()
 
     var body: some View {
@@ -19,7 +20,15 @@ struct ContentView: View {
                     ]
                     LazyVGrid(columns: adaptiveColumns, spacing: 20) {
                         ForEach(viewModel.filteredPokemon) { pokemon in
-                            NavigationLink(destination: PokemonDetailView(pokemon: pokemon)) {
+                            NavigationLink(
+                                destination: PokemonDetailView(
+                                    viewModel: PokemonDetailViewModel(
+                                        favoritedPokemonStore: FavoritePokemonStore(
+                                            modelContext: modelContext
+                                        )
+                                    ), pokemon: pokemon
+                                )
+                            ) {
                                 PokeDexView(pokemon: pokemon)
                             }
                         }
@@ -48,8 +57,12 @@ struct ContentView: View {
             }
 
             NavigationStack {
-                SavedPokemonView()
-                    .navigationTitle("Saved Pokémon")
+                FavoritedPokemonView(
+                    viewModel: FavoritedPokemonViewModel(
+                        favoritedPokemonStore: FavoritePokemonStore(modelContext: modelContext)
+                    )
+                ) 
+                .navigationTitle("Saved Pokémon")
             }
             .tabItem {
                 Label("Favorites", systemImage: "heart.fill")
