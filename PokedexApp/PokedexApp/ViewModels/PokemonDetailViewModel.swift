@@ -33,7 +33,7 @@ final class PokemonDetailViewModel: ObservableObject {
     func isPokemonFavorited(_ pokemonToCheck: Pokemon) -> Bool {
         store.fetchPokemon()
         return store.favorites.contains { pokemon in
-            pokemonToCheck.name == pokemon.name
+            pokemonToCheck.id == pokemon.id
         }
     }
 }

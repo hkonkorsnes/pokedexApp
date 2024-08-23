@@ -15,11 +15,7 @@ class PokemonManager {
         return pokemon
     }
 
-    func getDetailedPokemon(url: String, completion: @escaping (DetailedPokemon?) -> Void) {
-        guard let url = URL(string: url) else {
-            completion(nil)
-            return
-        }
+    func getDetailedPokemon(url: URL, completion: @escaping (DetailedPokemon?) -> Void) {
 
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
