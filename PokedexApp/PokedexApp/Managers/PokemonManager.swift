@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PokemonManager {
+final class PokemonManager {
     func getPokemon() -> [Pokemon] {
         let data: PokemonPage = Bundle.main.decode(file:"pokemon.json")
         let pokemon: [Pokemon] = data.results
