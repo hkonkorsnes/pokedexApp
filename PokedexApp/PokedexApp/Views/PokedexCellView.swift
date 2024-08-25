@@ -23,8 +23,6 @@ struct PokedexCellView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(gradientBackground)
         .clipShape(RoundedRectangle(cornerRadius: 16))
-        .overlay(borderOverlay)
-        .shadow(color: backgroundColor.opacity(0.6), radius: 10, x: 0, y: 5)
         .onAppear { updateBackgroundColor() }
     }
 
@@ -36,9 +34,6 @@ struct PokedexCellView: View {
             case .success(let image):
                 image.resizable()
                     .scaledToFit()
-                    .frame(width: dimensions, height: dimensions)
-                    .foregroundStyle(.gray)
-                    .shadow(radius: 10)
                     .matchedGeometryEffect(id: "\(pokemon.id)-image", in: namespace)
             case .failure:
                 ProgressView().frame(width: dimensions, height: dimensions)
@@ -67,11 +62,6 @@ struct PokedexCellView: View {
             startPoint: .bottom,
             endPoint: .top
         )
-    }
-
-    private var borderOverlay: some View {
-        RoundedRectangle(cornerRadius: 16)
-            .stroke(Color.white.opacity(0.7), lineWidth: 2)
     }
 
     private func getPokemonImageURL() -> String {
