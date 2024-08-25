@@ -9,7 +9,6 @@ import SwiftUI
 
 struct RandomPokemonView: View {
     @EnvironmentObject var viewModel: PokemonViewModel
-    @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var modelContext
     @AppStorage("randomPokemonID") private var randomPokemonID: String?
     @State private var randomPokemon: Pokemon?
@@ -19,6 +18,10 @@ struct RandomPokemonView: View {
         NavigationStack {
             VStack(spacing: 20) {
                 if let randomPokemon, let url = pokemonImageURL {
+                    blackedOutPokemonImage(url)
+                        .padding()
+                    Spacer()
+
                     NavigationLink(
                         destination: PokemonDetailView(
                             viewModel: PokemonDetailViewModel(
@@ -28,62 +31,33 @@ struct RandomPokemonView: View {
                             ), pokemon: randomPokemon
                         )
                     ) {
-                        pokemonCardView(with: url)
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                        Text("Reveal Pokémon \(Image(systemName: "chevron.right"))")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(.blue)
+                            .foregroundColor(.white)
+                            .clipShape(Capsule())
                     }
                 } else {
                     Text("Press the button to show a random Pokémon")
                         .font(.headline)
                         .padding()
                 }
-
-                Spacer()
-
-                Button(action: randomizePokemon) {
-                    HStack {
-                        Image(systemName: "shuffle")
-                        Text("Randomize Pokémon")
-                    }
-                    .font(.headline)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.accentColor)
-                    .foregroundStyle(.white)
-                    .cornerRadius(10)
-                }
             }
             .padding()
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: randomizePokemon) {
+                        Image(systemName: "arrow.counterclockwise")
+                    }
+                }
+            }
             .navigationTitle("Who's that Pokémon?")
             .onAppear {
                 loadRandomPokemon()
             }
         }
-    }
-
-    // MARK: - Pokemon Card View
-    private func pokemonCardView(with imageURL: String) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.regularMaterial)
-                .shadow(radius: 5)
-
-            HStack(alignment: .center) {
-                blackedOutPokemonImage(imageURL)
-
-                VStack {
-                    Spacer()
-                    Text("Tap to reveal \(Image(systemName: "chevron.right"))")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.primary)
-                }
-                .frame(maxHeight: .infinity)
-                .padding(.bottom, 8)
-
-            }
-            .padding()
-        }
-        .frame(height: 200)
     }
 
     // MARK: - Blacked Out Pokemon Image
@@ -98,7 +72,7 @@ struct RandomPokemonView: View {
                     .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
-                    .foregroundStyle(colorScheme == .dark ? .white : .black) // Black/white out the image
+                    .foregroundStyle(.primary)
                     .shadow(radius: 10)
             case .failure:
                 ProgressView()
@@ -112,9 +86,9 @@ struct RandomPokemonView: View {
 
     // MARK: - Functions
     private func getPokemonImageURL(id: String) -> String {
-        return viewModel.isShiny
-            ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/\(id).png"
-            : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(id).png"
+        viewModel.isShiny
+        ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/\(id).png"
+        : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(id).png"
     }
 
     private func randomizePokemon() {
@@ -128,18 +102,13 @@ struct RandomPokemonView: View {
     }
 
     private func loadRandomPokemon() {
-        guard let randomPokemonID else {
+        if let randomPokemonID = randomPokemonID,
+           let pokemon = viewModel.pokemonList.first(where: { $0.id == randomPokemonID }) {
+            self.randomPokemon = pokemon
+            self.pokemonImageURL = getPokemonImageURL(id: pokemon.id)
+        } else {
             randomizePokemon()
-            return
         }
-
-        guard let pokemon = viewModel.pokemonList.first(where: { $0.id == randomPokemonID }) else {
-            randomizePokemon()
-            return
-        }
-
-        self.randomPokemon = pokemon
-        self.pokemonImageURL = getPokemonImageURL(id: pokemon.id)
     }
 }
 

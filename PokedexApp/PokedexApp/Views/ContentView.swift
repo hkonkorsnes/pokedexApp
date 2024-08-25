@@ -8,37 +8,58 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.modelContext) var modelContext
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @StateObject var viewModel = PokemonViewModel()
+
+    private var columns: [GridItem] {
+        if dynamicTypeSize.isAccessibilitySize {
+            return [
+                GridItem(.flexible())
+            ]
+        }
+
+        return [
+            GridItem(.adaptive(minimum: 150))
+        ]
+    }
+
+    @Namespace private var detailAnimationNamespace
 
     var body: some View {
         TabView {
             NavigationStack {
                 ScrollView {
-                    let adaptiveColumns = [
-                        GridItem(.adaptive(minimum: 150))
-                    ]
-                    LazyVGrid(columns: adaptiveColumns, spacing: 10) {
+                    LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(viewModel.filteredPokemon) { pokemon in
-                            NavigationLink(destination: PokemonDetailView(pokemon: pokemon)) {
+                            NavigationLink(
+                                destination: PokemonDetailView(
+                                    viewModel: PokemonDetailViewModel(
+                                        favoritedPokemonStore: FavoritePokemonStore(
+                                            modelContext: modelContext
+                                        )
+                                    ), pokemon: pokemon
+                                )
+                                .navigationTransition(.zoom(sourceID: "pokemon", in: detailAnimationNamespace))
+                            ) {
                                 PokeDexView(pokemon: pokemon)
                             }
                         }
                     }
-                    .animation(.easeIn(duration: 0.3), value: viewModel.filteredPokemon.count)
+                    .padding()
                     .navigationTitle("Pokédex")
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
-                            Menu(content: {
-                                Button(role: .none) {
+                            Menu {
+                                Button(action: {
                                     viewModel.isShiny.toggle()
-                                    print("Shiny shown: \(viewModel.isShiny)")
-                                } label: {
+                                }) {
                                     Label("Toggle shiny variants", systemImage: "sparkles")
                                 }
-                            }, label: {
+                            } label: {
                                 Image(systemName: "ellipsis.circle")
                                     .imageScale(.large)
-                            })
+                            }
                         }
                     }
                 }
@@ -49,11 +70,23 @@ struct ContentView: View {
             }
 
             NavigationStack {
-                FavoritedPokemonView()
-                    .navigationTitle("Saved Pokémon")
+                RandomPokemonView()
+                    .navigationTitle("Who's that Pokémon?")
             }
             .tabItem {
-                Label("Saved", systemImage: "heart.fill")
+                Label("Who", systemImage: "person.fill.questionmark")
+            }
+
+            NavigationStack {
+                FavoritedPokemonView(
+                    viewModel: FavoritedPokemonViewModel(
+                        favoritedPokemonStore: FavoritePokemonStore(modelContext: modelContext)
+                    )
+                )
+                .navigationTitle("Saved Pokémon")
+            }
+            .tabItem {
+                Label("Favorites", systemImage: "heart.fill")
             }
         }
         .environmentObject(viewModel)

@@ -70,8 +70,6 @@
 			isa = PBXGroup;
 			children = (
 				550C23B52C76006900FF9BDF /* PokedexApp.swift */,
-				550C23F22C78CFC500FF9BDF /* Persistence */,
-				550C23D62C76056600FF9BDF /* Views */,
 				550C23B42C76006900FF9BDF /* PokedexApp */,
 				550C23B32C76006900FF9BDF /* Products */,
 			);
@@ -88,6 +86,8 @@
 		550C23B42C76006900FF9BDF /* PokedexApp */ = {
 			isa = PBXGroup;
 			children = (
+				550C23F22C78CFC500FF9BDF /* Persistence */,
+				550C23D62C76056600FF9BDF /* Views */,
 				550C23D32C76035500FF9BDF /* ViewModels */,
 				550C23D02C76032000FF9BDF /* Managers */,
 				550C23CD2C7602A200FF9BDF /* Models */,
