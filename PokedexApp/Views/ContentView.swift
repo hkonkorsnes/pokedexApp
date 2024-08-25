@@ -70,6 +70,14 @@ struct ContentView: View {
             }
 
             NavigationStack {
+                RandomPokemonView()
+                    .navigationTitle("Who's that Pokémon?")
+            }
+            .tabItem {
+                Label("Who", systemImage: "person.fill.questionmark")
+            }
+
+            NavigationStack {
                 FavoritedPokemonView(
                     viewModel: FavoritedPokemonViewModel(
                         favoritedPokemonStore: FavoritePokemonStore(modelContext: modelContext)
@@ -79,14 +87,6 @@ struct ContentView: View {
             }
             .tabItem {
                 Label("Favorites", systemImage: "heart.fill")
-            }
-
-            NavigationStack {
-                RandomPokemonView()
-                    .navigationTitle("Who's that Pokémon?")
-            }
-            .tabItem {
-                Label("Who", systemImage: "person.fill.questionmark")
             }
         }
         .environmentObject(viewModel)
