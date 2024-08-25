@@ -33,13 +33,12 @@ struct PokemonDetailView: View {
                     PokemonDetailsInfoSectionView(pokemonName: pokemon.name, infoText: formatInfoText(infoText))
                     DetailsSectionView(details: details, viewModel: pokemonViewModel)
                 } else {
-                    Text("Loading...")
-                        .padding()
+                    ProgressView()
                 }
                 Spacer()
             }
         }
-        .navigationTitle(pokemon.name.capitalized)
+        .navigationTitle("\(pokemon.name.capitalized) #\(pokemon.id)")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 favoriteButton
