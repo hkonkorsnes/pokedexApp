@@ -22,9 +22,8 @@ struct PokemonDetailItemView: View {
         }
         .padding()
         .frame(maxWidth: .infinity)
-        .background(Color.white.opacity(0.9))
-        .cornerRadius(12)
-        .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
+        .background(.thinMaterial)
+        .clipShape(.capsule)
     }
 }
 
