@@ -39,6 +39,7 @@ struct PokemonDetailView: View {
                 Spacer()
             }
         }
+        .navigationTitle(pokemon.name.capitalized)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 favoriteButton
