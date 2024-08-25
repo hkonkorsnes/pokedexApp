@@ -43,7 +43,16 @@ struct PokeDexView: View {
                 .padding()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(LinearGradient(gradient: Gradient(colors: [backgroundColor.opacity(0.8), backgroundColor.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
+        .background(
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    backgroundColor.opacity(0.8),
+                    backgroundColor.opacity(0.5)
+                ]),
+                startPoint: .bottom,
+                endPoint: .top
+            )
+        )
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay(
             RoundedRectangle(cornerRadius: 16)
@@ -59,8 +68,6 @@ struct PokeDexView: View {
                 }
             }
         }
-        .padding(.horizontal)
-
     }
 
     private func getPokemonImageURL() -> String {
