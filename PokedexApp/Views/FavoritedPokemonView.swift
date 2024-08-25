@@ -66,7 +66,7 @@ struct FavoritedPokemonView: View {
             ContentUnavailableView {
                 Label("No Pokémon favorited yet", systemImage: "heart.slash")
             } description: {
-                Text("It doesn't seem like you have favorited any Pokémon yet. Pokémon will be saved here when you havorite them")
+                Text("It doesn't seem like you have favorited any Pokémon yet. Pokémon will be saved here when you favorite them")
             }
         }
     }
