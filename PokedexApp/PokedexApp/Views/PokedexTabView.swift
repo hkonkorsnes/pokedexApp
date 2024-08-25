@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  PokedexTabView.swift
 //  PokedexApp
 //
 //  Created by Håkon Korsnes on 21/08/2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct PokedexTabView: View {
     @Environment(\.modelContext) var modelContext
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @StateObject var viewModel = PokemonViewModel()
@@ -46,5 +46,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    PokedexTabView()
 }
