@@ -21,22 +21,22 @@ git clone https://github.com/hkonkorsnes/pokedexApp.git
 
 ## Features
 
-### Pokedex Tab
+### Pokedex
 **Complete List of Pokémon:** Browse through all the original 151 Pokémon. Each entry includes the Pokémon's name, type, image and little bit of info.  
 **Search Functionality:** Quickly find any Pokémon by typing its name in the search bar.  
 **Shiny toggle:** If you're a real Pokémon nerd, you also want to be able to toggle the shiny variant of the Pokémon.
 
-### Who's that Pokémon tab
+### Who's that Pokémon
 **Discover a Random Pokémon:** Get a random Pokémon each time you visit this tab. It’s a fun way to explore the Pokémon you may not have seen before!  
 **Detailed View:** Click on any Pokémon to see more details, including its type, image, info and so on.
 
-### Favorites Tab
+### Favorites
 **Manage Your Favorite Pokémon:** Mark any Pokémon as a favorite and store them in this tab.  
 **Easy Access:** Quickly access the Pokémon you love the most.
 
 ## Future Plans
 
-### We have some exciting features planned for future updates:
+### I have some exciting features planned for future updates:
 
 * Evolution chain and evolution requirements
 * Async await
