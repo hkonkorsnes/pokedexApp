@@ -10,13 +10,8 @@ import SwiftData
 
 struct FavoritedPokemonView: View {
     @ObservedObject var viewModel: FavoritedPokemonViewModel
-    @EnvironmentObject var pokemonViewModel: PokemonViewModel
 
     @Environment(\.modelContext) var modelContext
-
-    init(viewModel: FavoritedPokemonViewModel) {
-        self.viewModel = viewModel
-    }
 
     var body: some View {
         VStack {
@@ -27,16 +22,17 @@ struct FavoritedPokemonView: View {
                     NavigationLink(
                         destination: PokemonDetailView(
                             viewModel: PokemonDetailViewModel(
+                                pokemon: pokemon,
                                 favoritedPokemonStore: FavoritePokemonStore(
                                     modelContext: modelContext
                                 )
-                            ), pokemon: pokemon
+                            )
                         )
                     ) {
                         HStack {
                             AsyncImage(
                                 url: URL(
-                                    string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(pokemonViewModel.fetchPokemonIndex(pokemon: pokemon)).png"
+                                    string: viewModel.fetchPokemonImageURL(id: pokemon.id)
                                 )
                             ) { image in
                                 image
@@ -84,5 +80,4 @@ struct FavoritedPokemonView: View {
             )
         )
     )
-        .environmentObject(PokemonViewModel())
 }

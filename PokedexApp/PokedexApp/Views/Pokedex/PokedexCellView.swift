@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct PokedexCellView: View {
-    @EnvironmentObject var viewModel: PokemonViewModel
     let pokemon: Pokemon
+    let viewModel: PokedexViewModel
     @State private var backgroundColor: Color = .gray
 
     private let dimensions: Double = 160
@@ -22,11 +22,11 @@ struct PokedexCellView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(gradientBackground)
         .clipShape(RoundedRectangle(cornerRadius: 16))
-        .onAppear { updateBackgroundColor() }
+//        .onAppear { updateBackgroundColor() }
     }
 
     private var pokemonImageView: some View {
-        AsyncImage(url: URL(string: fetchPokemonImageURL())) { phase in
+        AsyncImage(url: URL(string: viewModel.fetchPokemonImageURL(for: pokemon))) { phase in
             switch phase {
             case .empty:
                 ProgressView().frame(width: dimensions, height: dimensions)
@@ -61,19 +61,13 @@ struct PokedexCellView: View {
         )
     }
 
-    private func fetchPokemonImageURL() -> String {
-        viewModel.isShiny
-            ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/\(viewModel.fetchPokemonIndex(pokemon: pokemon)).png"
-            : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(viewModel.fetchPokemonIndex(pokemon: pokemon)).png"
-    }
-
-    private func updateBackgroundColor() {
-        viewModel.fetchDetails(pokemon: pokemon) { details in
-            if let primaryType = details?.types.first?.type.name {
-                backgroundColor = viewModel.color(forType: primaryType)
-            } else {
-                backgroundColor = .gray
-            }
-        }
-    }
+//    private func updateBackgroundColor() {
+//        viewModel.fetchDetails(pokemon: pokemon) { details in
+//            if let primaryType = details?.types.first?.type.name {
+//                backgroundColor = viewModel.color(forType: primaryType)
+//            } else {
+//                backgroundColor = .gray
+//            }
+//        }
+//    }
 }

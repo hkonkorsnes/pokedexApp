@@ -10,19 +10,18 @@ import SwiftUI
 struct PokedexTabView: View {
     @Environment(\.modelContext) var modelContext
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
-    @StateObject var viewModel = PokemonViewModel()
     
     var body: some View {
         TabView {
             NavigationStack {
-                PokedexView()
+                PokedexView(viewModel: PokedexViewModel())
             }
             .tabItem {
                 Label("Pokédex", systemImage: "list.dash")
             }
             
             NavigationStack {
-                RandomPokemonView()
+                RandomPokemonView(viewModel: RandomPokemonViewModel())
                     .navigationTitle("Who's that Pokémon?")
             }
             .tabItem {
@@ -41,7 +40,6 @@ struct PokedexTabView: View {
                 Label("Favorites", systemImage: "heart.fill")
             }
         }
-        .environmentObject(viewModel)
     }
 }
 

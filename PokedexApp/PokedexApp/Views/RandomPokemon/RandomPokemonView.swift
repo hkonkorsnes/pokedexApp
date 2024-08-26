@@ -8,16 +8,13 @@
 import SwiftUI
 
 struct RandomPokemonView: View {
-    @EnvironmentObject var viewModel: PokemonViewModel
+    @ObservedObject var viewModel: RandomPokemonViewModel
     @Environment(\.modelContext) var modelContext
-    @AppStorage("randomPokemonID") private var randomPokemonID: String?
-    @State private var randomPokemon: Pokemon?
-    @State private var pokemonImageURL: String?
 
     var body: some View {
         NavigationStack {
             VStack() {
-                if let randomPokemon, let url = pokemonImageURL {
+                if let randomPokemon = viewModel.randomPokemon, let url = viewModel.pokemonImageURL {
                     blackedOutPokemonImage(url)
                         .padding()
                     Spacer()
@@ -25,10 +22,11 @@ struct RandomPokemonView: View {
                     NavigationLink(
                         destination: PokemonDetailView(
                             viewModel: PokemonDetailViewModel(
+                                pokemon: randomPokemon,
                                 favoritedPokemonStore: FavoritePokemonStore(
                                     modelContext: modelContext
                                 )
-                            ), pokemon: randomPokemon
+                            )
                         )
                     ) {
                         Text("Reveal Pokémon \(Image(systemName: "chevron.right"))")
@@ -48,14 +46,14 @@ struct RandomPokemonView: View {
             .padding()
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: randomizePokemon) {
+                    Button(action: viewModel.randomizePokemon) {
                         Image(systemName: "arrow.counterclockwise")
                     }
                 }
             }
             .navigationTitle("Who's that Pokémon?")
             .onAppear {
-                loadRandomPokemon()
+                viewModel.loadRandomPokemon()
             }
         }
     }
@@ -80,36 +78,8 @@ struct RandomPokemonView: View {
             }
         }
     }
-
-    // MARK: - Functions
-    private func fetchPokemonImageURL(id: String) -> String {
-        viewModel.isShiny
-        ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/\(id).png"
-        : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(id).png"
-    }
-
-    private func randomizePokemon() {
-        if let pokemon = viewModel.pokemonList.randomElement() {
-            viewModel.fetchDetails(pokemon: pokemon) { _ in
-                self.randomPokemon = pokemon
-                self.randomPokemonID = pokemon.id  // Save the ID
-                self.pokemonImageURL = fetchPokemonImageURL(id: pokemon.id)
-            }
-        }
-    }
-
-    private func loadRandomPokemon() {
-        if let randomPokemonID = randomPokemonID,
-           let pokemon = viewModel.pokemonList.first(where: { $0.id == randomPokemonID }) {
-            self.randomPokemon = pokemon
-            self.pokemonImageURL = fetchPokemonImageURL(id: pokemon.id)
-        } else {
-            randomizePokemon()
-        }
-    }
 }
 
 #Preview {
-    RandomPokemonView()
-        .environmentObject(PokemonViewModel())
+    RandomPokemonView(viewModel: RandomPokemonViewModel())
 }

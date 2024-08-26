@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PokedexView: View {
-    @EnvironmentObject var viewModel: PokemonViewModel
+    @ObservedObject var viewModel: PokedexViewModel
     @Environment(\.modelContext) var modelContext
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
 
@@ -31,13 +31,14 @@ struct PokedexView: View {
                     NavigationLink(
                         destination: PokemonDetailView(
                             viewModel: PokemonDetailViewModel(
+                                pokemon: pokemon,
                                 favoritedPokemonStore: FavoritePokemonStore(
                                     modelContext: modelContext
                                 )
-                            ), pokemon: pokemon
+                            )
                         )
                     ) {
-                        PokedexCellView(pokemon: pokemon)
+                        PokedexCellView(pokemon: pokemon, viewModel: viewModel)
                     }
                 }
             }
@@ -63,6 +64,5 @@ struct PokedexView: View {
 }
 
 #Preview {
-    PokedexView()
-        .environmentObject(PokemonViewModel())
+    PokedexView(viewModel: PokedexViewModel())
 }
