@@ -9,7 +9,8 @@ import SwiftUI
 
 final class FavoritedPokemonViewModel: ObservableObject {
     @Published var favoritedPokemon: [Pokemon] = []
-    @Published var isShiny = false
+    
+    @AppStorage("isShiny") var isShiny = false
 
     private var store: FavoritePokemonStore
 

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PokedexCellView: View {
     let pokemon: Pokemon
-    let viewModel: PokedexViewModel
+    @ObservedObject var viewModel: PokedexViewModel
     @State private var backgroundColor: Color = .gray
 
     private let dimensions: Double = 160
@@ -20,10 +20,8 @@ struct PokedexCellView: View {
             pokemonNameView
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(gradientBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-//        .onAppear { updateBackgroundColor() }
-    }
+        .background(.thickMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16))    }
 
     private var pokemonImageView: some View {
         AsyncImage(url: URL(string: viewModel.fetchPokemonImageURL(for: pokemon))) { phase in
@@ -46,28 +44,7 @@ struct PokedexCellView: View {
             .font(.title2)
             .fontWeight(.bold)
             .fontDesign(.rounded)
-            .foregroundStyle(.white)
+            .foregroundStyle(.primary)
             .padding()
     }
-
-    private var gradientBackground: some View {
-        LinearGradient(
-            gradient: Gradient(colors: [
-                backgroundColor.opacity(0.8),
-                backgroundColor.opacity(0.5)
-            ]),
-            startPoint: .bottom,
-            endPoint: .top
-        )
-    }
-
-//    private func updateBackgroundColor() {
-//        viewModel.fetchDetails(pokemon: pokemon) { details in
-//            if let primaryType = details?.types.first?.type.name {
-//                backgroundColor = viewModel.color(forType: primaryType)
-//            } else {
-//                backgroundColor = .gray
-//            }
-//        }
-//    }
 }

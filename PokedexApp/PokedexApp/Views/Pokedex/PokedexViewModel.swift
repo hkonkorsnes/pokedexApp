@@ -5,14 +5,15 @@
 //  Created by Håkon Korsnes on 26/08/2024.
 //
 
-import Foundation
+import SwiftUI
 
 class PokedexViewModel: ObservableObject {
     private let pokemonManager = PokemonManager()
 
     @Published var pokemonList = [Pokemon]()
     @Published var searchText = ""
-    @Published var isShiny = false
+
+    @AppStorage("isShiny") var isShiny = false
 
     init() {
         self.pokemonList = pokemonManager.fetchPokemon()

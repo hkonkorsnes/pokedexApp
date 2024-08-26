@@ -8,7 +8,8 @@ final class PokemonDetailViewModel: ObservableObject {
     @Published var pokemonSpecies: PokemonSpecies? = nil
     @Published var showError: Bool = false
     @Published var favoritedPokemon: [Pokemon] = []
-    @Published var isShiny = false
+    
+    @AppStorage("isShiny") var isShiny = false
 
     private var store: FavoritePokemonStore
 
@@ -141,6 +142,8 @@ final class PokemonDetailViewModel: ObservableObject {
             return Color.pink
         case "normal":
             return Color.brown
+        case "poison":
+            return Color.purple
         default:
             return Color.gray
         }

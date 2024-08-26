@@ -40,6 +40,7 @@ struct PokedexView: View {
                     ) {
                         PokedexCellView(pokemon: pokemon, viewModel: viewModel)
                     }
+                    .buttonStyle(.plain)
                 }
             }
             .padding()
