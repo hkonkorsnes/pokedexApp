@@ -12,10 +12,10 @@ class RandomPokemonViewModel: ObservableObject {
 
     @Published var randomPokemon: Pokemon?
     @Published var pokemonImageURL: String?
-    @Published var isShiny = false
     @Published var pokemonList = [Pokemon]()
     @Published var pokemonDetails: [String: DetailedPokemon] = [:]  // Use String as the key type
-
+    
+    @AppStorage("isShiny") var isShiny = false
     @AppStorage("randomPokemonID") private var randomPokemonID: String?
 
     init() {
