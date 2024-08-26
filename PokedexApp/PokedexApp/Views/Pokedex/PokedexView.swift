@@ -61,6 +61,9 @@ struct PokedexView: View {
             }
         }
         .searchable(text: $viewModel.searchText)
+        .onAppear {
+            viewModel.fetchAllPokemonDetails()
+        }
     }
 }
 

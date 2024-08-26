@@ -20,8 +20,23 @@ struct PokedexCellView: View {
             pokemonNameView
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.thickMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 16))    }
+        .background(gradientBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .onAppear {
+            updateBackgroundColor()
+        }
+    }
+
+    private var gradientBackground: some View {
+        LinearGradient(
+            gradient: Gradient(colors: [
+                backgroundColor.opacity(0.8),
+                backgroundColor.opacity(0.5)
+            ]),
+            startPoint: .bottom,
+            endPoint: .top
+        )
+    }
 
     private var pokemonImageView: some View {
         AsyncImage(url: URL(string: viewModel.fetchPokemonImageURL(for: pokemon))) { phase in
@@ -44,7 +59,17 @@ struct PokedexCellView: View {
             .font(.title2)
             .fontWeight(.bold)
             .fontDesign(.rounded)
-            .foregroundStyle(.primary)
+            .foregroundStyle(.white)
             .padding()
+    }
+
+    private func updateBackgroundColor() {
+        if let details = viewModel.getDetails(for: pokemon) {
+            if let primaryType = details.types.first?.type.name {
+                backgroundColor = viewModel.color(forType: primaryType)
+            } else {
+                backgroundColor = .gray
+            }
+        }
     }
 }
