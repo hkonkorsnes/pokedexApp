@@ -3,7 +3,7 @@
 Welcome to my Pokédex App! This iOS application brings the classic experience of a Pokedex to your device, giving you information of the first 151 Pokémon. It also gives you the opportunity to quiz yourselves on pokemon with the "Who's that Pokémon" feature, as well as storing your favorite Pokémon.  
 The app is built using SwiftUI and is designed for iOS 18.
 
-![An overview of the app. There are four screens here. The first shows the Pokedex view, the second shows the Pokémon detail view, the third shows the "Who's that Pokémon" view and the fourth shows the favorites view](https://github.com/user-attachments/assets/c1bafea6-c0ec-4e8a-a366-a95dcc15fbc6)
+![An overview of the app. There are four screens here. The first shows the Pokedex view, the second shows the Pokémon detail view, the third shows the "Who's that Pokémon" view and the fourth shows the favorites view](https://github.com/user-attachments/assets/f491b358-88b8-4a96-8f39-efe9607c655e)
 
 
 ### PokeAPI
@@ -39,9 +39,9 @@ git clone https://github.com/hkonkorsnes/pokedexApp.git
 ### I have some exciting features planned for future updates:
 
 * Evolution chain and evolution requirements
-* Async await
 * Support later Pokémon generations
-* Provide more data (stats, moves, etc) 
+* Provide more data (stats, moves, etc)
+* Better error handling and loading states
 
 ## Contact
 
