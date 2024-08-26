@@ -14,14 +14,14 @@ struct PokedexTabView: View {
     var body: some View {
         TabView {
             NavigationStack {
-                PokedexView(viewModel: PokedexViewModel())
+                PokedexView()
             }
             .tabItem {
                 Label("Pokédex", systemImage: "list.dash")
             }
             
             NavigationStack {
-                RandomPokemonView(viewModel: RandomPokemonViewModel())
+                RandomPokemonView()
                     .navigationTitle("Who's that Pokémon?")
             }
             .tabItem {
@@ -29,11 +29,7 @@ struct PokedexTabView: View {
             }
             
             NavigationStack {
-                FavoritedPokemonView(
-                    viewModel: FavoritedPokemonViewModel(
-                        favoritedPokemonStore: FavoritePokemonStore(modelContext: modelContext)
-                    )
-                )
+                FavoritedPokemonView(store: FavoritePokemonStore(modelContext: modelContext))
                 .navigationTitle("Saved Pokémon")
             }
             .tabItem {

@@ -55,6 +55,7 @@ final class Pokemon: Decodable, Identifiable, Equatable {
 
 struct DetailedPokemon: Codable {
     let id: Int
+    let name: String
     let height: Int
     let weight: Int
     let types: [PokemonType]
@@ -62,7 +63,7 @@ struct DetailedPokemon: Codable {
 
     struct Species: Codable {
         let name: String
-        let url: String
+        let url: URL
     }
 }
 

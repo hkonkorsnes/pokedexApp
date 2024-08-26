@@ -8,7 +8,8 @@ final class PokemonDetailViewModel: ObservableObject {
     @Published var pokemonSpecies: PokemonSpecies? = nil
     @Published var showError: Bool = false
     @Published var favoritedPokemon: [Pokemon] = []
-    
+    @Published var backgroundColor: Color = .gray
+
     @AppStorage("isShiny") var isShiny = false
 
     private var store: FavoritePokemonStore
@@ -16,6 +17,7 @@ final class PokemonDetailViewModel: ObservableObject {
     init(pokemon: Pokemon, favoritedPokemonStore: FavoritePokemonStore) {
         self.pokemon = pokemon
         self.store = favoritedPokemonStore
+        fetchPokemonDetails()
     }
 
     func onAppear() {
@@ -58,65 +60,28 @@ final class PokemonDetailViewModel: ObservableObject {
     }
 
     func fetchPokemonDetails() {
-        fetchDetails(pokemon: pokemon) { details in
-            if let details = details {
-                self.pokemonDetails = details
-                self.fetchPokemonSpecies(details.species.url)
-            } else {
-                self.showError = true
-            }
-        }
-    }
-
-    func fetchDetails(pokemon: Pokemon, completion: @escaping (DetailedPokemon?) -> Void) {
-        if let details = pokemonDetails {
-            completion(details)
-            return
-        }
-
-        pokemonManager.fetchDetailedPokemon(url: pokemon.url) { data in
+        Task {
+            let details = await fetchDetails()
+            let species = await fetchPokemonSpecies(url: details?.species.url)
             DispatchQueue.main.async {
-                if let data = data {
-                    self.pokemonDetails = data
-                    completion(data)
-                } else {
-                    completion(nil)
-                }
-            }
-        }
-    }
-
-    func fetchPokemonSpecies(_ url: String) {
-        fetchSpecies(url: url) { species in
-            if let species = species {
+                self.pokemonDetails = details
                 self.pokemonSpecies = species
-            } else {
-                self.showError = true
+                self.updateBackgroundColor()
             }
         }
     }
 
-    func fetchSpecies(url: String, completion: @escaping (PokemonSpecies?) -> Void) {
-        guard let url = URL(string: url) else {
-            completion(nil)
-            return
-        }
+    func fetchDetails() async -> DetailedPokemon? {
+        guard pokemonDetails == nil else { return nil }
 
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
-                completion(nil)
-                return
-            }
+        return await pokemonManager.fetchDetailedPokemon(url: pokemon.url)
+    }
 
-            let decoder = JSONDecoder()
-            if let species = try? decoder.decode(PokemonSpecies.self, from: data) {
-                DispatchQueue.main.async {
-                    completion(species)
-                }
-            } else {
-                completion(nil)
-            }
-        }.resume()
+    func fetchPokemonSpecies(url: URL?) async -> PokemonSpecies? {
+        guard let url else { return nil }
+        guard pokemonSpecies == nil else { return nil }
+
+        return await pokemonManager.fetchSpecies(url: url)
     }
 
     // Connects Pokémon type to a color
@@ -152,6 +117,15 @@ final class PokemonDetailViewModel: ObservableObject {
             return Color.purple
         default:
             return Color.gray
+        }
+    }
+
+    func updateBackgroundColor() {
+        guard let pokemonDetails else { return }
+        if let primaryType = pokemonDetails.types.first?.type.name {
+            backgroundColor = color(forType: primaryType)
+        } else {
+            backgroundColor = .gray
         }
     }
 }

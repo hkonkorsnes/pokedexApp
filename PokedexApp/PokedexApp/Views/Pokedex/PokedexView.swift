@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct PokedexView: View {
-    @ObservedObject var viewModel: PokedexViewModel
+    @StateObject var viewModel: PokedexViewModel
     @Environment(\.modelContext) var modelContext
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
+
+    init() {
+        self._viewModel = StateObject(wrappedValue: PokedexViewModel())
+    }
 
     private var columns: [GridItem] {
         if dynamicTypeSize.isAccessibilitySize {
@@ -30,15 +34,13 @@ struct PokedexView: View {
                 ForEach(viewModel.filteredPokemon) { pokemon in
                     NavigationLink(
                         destination: PokemonDetailView(
-                            viewModel: PokemonDetailViewModel(
                                 pokemon: pokemon,
-                                favoritedPokemonStore: FavoritePokemonStore(
+                                store: FavoritePokemonStore(
                                     modelContext: modelContext
-                                )
                             )
                         )
                     ) {
-                        PokedexCellView(pokemon: pokemon, viewModel: viewModel)
+                        PokedexCellView(pokemon: pokemon)
                     }
                     .buttonStyle(.plain)
                 }
@@ -61,12 +63,9 @@ struct PokedexView: View {
             }
         }
         .searchable(text: $viewModel.searchText)
-        .onAppear {
-            viewModel.fetchAllPokemonDetails()
-        }
     }
 }
 
 #Preview {
-    PokedexView(viewModel: PokedexViewModel())
+    PokedexView()
 }

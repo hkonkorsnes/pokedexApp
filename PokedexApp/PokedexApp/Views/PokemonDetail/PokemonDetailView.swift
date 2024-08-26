@@ -10,21 +10,20 @@ import SwiftData
 
 struct PokemonDetailView: View {
     @Environment(\.modelContext) private var context
-    @ObservedObject var viewModel: PokemonDetailViewModel
+    @StateObject var viewModel: PokemonDetailViewModel
+
+    init(pokemon: Pokemon, store: FavoritePokemonStore) {
+        self._viewModel = StateObject(wrappedValue: PokemonDetailViewModel(pokemon: pokemon, favoritedPokemonStore: store))
+    }
 
     var body: some View {
         ScrollView {
             VStack {
                 if let details = viewModel.pokemonDetails {
-                    PokemonDetailHeaderView(
-                        pokemon: viewModel.pokemon,
-                        backgroundColor: viewModel.color(forType: details.types.first?.type.name ?? "unknown"),
-                        imageUrl: viewModel.fetchPokemonImageURL()
-                    )
+                    header
                     typesSection(types: details.types)
                     infoSection
                     detailsSection(details: details)
-//                    DetailsSectionView(details: details, viewModel: pokemonViewModel)
                 } else {
                     ProgressView()
                 }
@@ -37,10 +36,45 @@ struct PokemonDetailView: View {
                 favoriteButton
             }
         }
-        .onAppear {
-            viewModel.onAppear()
-            viewModel.fetchPokemonDetails()
+    }
+
+    private var header: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 16)
+                .fill(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            viewModel.backgroundColor.opacity(0.6),
+                            viewModel.backgroundColor.opacity(0.2)
+                        ]),
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
+                )
+                .frame(maxWidth: .infinity)
+
+            AsyncImage(url: URL(string: viewModel.fetchPokemonImageURL())) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                        .frame(width: 270, height: 270)
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 270, height: 270)
+                        .shadow(radius: 10)
+                case .failure:
+                    ProgressView()
+                        .frame(width: 270, height: 270)
+                @unknown default:
+                    ProgressView()
+                        .frame(width: 270, height: 270)
+                }
+            }
+            .frame(width: 270, height: 270)
         }
+        .padding(.horizontal)
     }
 
     private func typesSection(types: [PokemonType]) -> some View {
@@ -130,12 +164,9 @@ struct PokemonDetailView: View {
     let container = try! ModelContainer(for: Pokemon.self, configurations: config)
     let pokemon = Pokemon.samplePokemon
 
-    PokemonDetailView(
-        viewModel: PokemonDetailViewModel(
-            pokemon: .samplePokemon,
-            favoritedPokemonStore: FavoritePokemonStore(
+    PokemonDetailView(pokemon: .samplePokemon,
+            store: FavoritePokemonStore(
                 modelContext: ModelContext(container)
-            )
         )
     )   
 }

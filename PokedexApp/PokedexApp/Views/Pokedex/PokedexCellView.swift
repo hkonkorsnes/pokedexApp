@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct PokedexCellView: View {
-    let pokemon: Pokemon
-    @ObservedObject var viewModel: PokedexViewModel
-    @State private var backgroundColor: Color = .gray
-
+    @StateObject var viewModel: PokemonCellViewModel
     private let dimensions: Double = 160
+
+    init(pokemon: Pokemon) {
+        self._viewModel = StateObject(wrappedValue: PokemonCellViewModel(pokemon: pokemon))
+    }
 
     var body: some View {
         VStack {
@@ -22,16 +23,13 @@ struct PokedexCellView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(gradientBackground)
         .clipShape(RoundedRectangle(cornerRadius: 16))
-        .onAppear {
-            updateBackgroundColor()
-        }
     }
 
     private var gradientBackground: some View {
         LinearGradient(
             gradient: Gradient(colors: [
-                backgroundColor.opacity(0.8),
-                backgroundColor.opacity(0.5)
+                viewModel.backgroundColor.opacity(0.8),
+                viewModel.backgroundColor.opacity(0.5)
             ]),
             startPoint: .bottom,
             endPoint: .top
@@ -39,7 +37,7 @@ struct PokedexCellView: View {
     }
 
     private var pokemonImageView: some View {
-        AsyncImage(url: URL(string: viewModel.fetchPokemonImageURL(for: pokemon))) { phase in
+        AsyncImage(url: URL(string: viewModel.fetchPokemonImageURL(for: viewModel.pokemon))) { phase in
             switch phase {
             case .empty:
                 ProgressView().frame(width: dimensions, height: dimensions)
@@ -55,21 +53,11 @@ struct PokedexCellView: View {
     }
 
     private var pokemonNameView: some View {
-        Text(pokemon.name.capitalized)
+        Text(viewModel.pokemon.name.capitalized)
             .font(.title2)
             .fontWeight(.bold)
             .fontDesign(.rounded)
             .foregroundStyle(.white)
             .padding()
-    }
-
-    private func updateBackgroundColor() {
-        if let details = viewModel.getDetails(for: pokemon) {
-            if let primaryType = details.types.first?.type.name {
-                backgroundColor = viewModel.color(forType: primaryType)
-            } else {
-                backgroundColor = .gray
-            }
-        }
     }
 }

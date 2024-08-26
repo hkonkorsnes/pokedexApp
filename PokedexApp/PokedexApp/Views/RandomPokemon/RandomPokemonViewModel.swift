@@ -13,13 +13,12 @@ final class RandomPokemonViewModel: ObservableObject {
     @Published var randomPokemon: Pokemon?
     @Published var pokemonImageURL: String?
     @Published var pokemonList = [Pokemon]()
-    @Published var pokemonDetails: [String: DetailedPokemon] = [:]  // Use String as the key type
     
     @AppStorage("isShiny") var isShiny = false
-    @AppStorage("randomPokemonID") private var randomPokemonID: String?
 
     init() {
         self.pokemonList = pokemonManager.fetchPokemon()
+        randomizePokemon()
     }
 
     // MARK: - Functions
@@ -30,40 +29,13 @@ final class RandomPokemonViewModel: ObservableObject {
     }
 
     func randomizePokemon() {
-        if let pokemon = pokemonList.randomElement() {
-            fetchDetails(pokemon: pokemon) { _ in
-                self.randomPokemon = pokemon
-                self.randomPokemonID = pokemon.id  // Save the ID
-                self.pokemonImageURL = self.fetchPokemonImageURL(id: pokemon.id)
-            }
-        }
+        guard let pokemon = pokemonList.randomElement() else { return }
+        self.randomPokemon = pokemon
+        self.pokemonImageURL = fetchPokemonImageURL(id: pokemon.id)
     }
 
     func loadRandomPokemon() {
-        if let randomPokemonID = randomPokemonID,
-           let pokemon = pokemonList.first(where: { $0.id == randomPokemonID }) {
-            self.randomPokemon = pokemon
-            self.pokemonImageURL = fetchPokemonImageURL(id: pokemon.id)
-        } else {
-            randomizePokemon()
-        }
-    }
-    
-    func fetchDetails(pokemon: Pokemon, completion: @escaping (DetailedPokemon?) -> Void) {
-        if let details = pokemonDetails[pokemon.id] {  // Access by String id
-            completion(details)
-            return
-        }
-
-        pokemonManager.fetchDetailedPokemon(url: pokemon.url) { data in
-            DispatchQueue.main.async {
-                if let data = data {
-                    self.pokemonDetails[pokemon.id] = data  // Store using String id
-                    completion(data)
-                } else {
-                    completion(nil)
-                }
-            }
-        }
+        guard randomPokemon == nil else { return }
+        randomizePokemon()
     }
 }

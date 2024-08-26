@@ -9,9 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct FavoritedPokemonView: View {
-    @ObservedObject var viewModel: FavoritedPokemonViewModel
+    @StateObject var viewModel: FavoritedPokemonViewModel
 
     @Environment(\.modelContext) var modelContext
+
+    init(store: FavoritePokemonStore) {
+        self._viewModel = StateObject(wrappedValue: FavoritedPokemonViewModel(favoritedPokemonStore: store))
+    }
 
     var body: some View {
         VStack {
@@ -21,11 +25,9 @@ struct FavoritedPokemonView: View {
                 List(viewModel.favoritedPokemon) { pokemon in
                     NavigationLink(
                         destination: PokemonDetailView(
-                            viewModel: PokemonDetailViewModel(
-                                pokemon: pokemon,
-                                favoritedPokemonStore: FavoritePokemonStore(
-                                    modelContext: modelContext
-                                )
+                            pokemon: pokemon,
+                            store: FavoritePokemonStore(
+                                modelContext: modelContext
                             )
                         )
                     ) {
@@ -73,11 +75,5 @@ struct FavoritedPokemonView: View {
     let container = try! ModelContainer(for: Pokemon.self, configurations: config)
     let pokemon = Pokemon.samplePokemon
 
-    FavoritedPokemonView(
-        viewModel: FavoritedPokemonViewModel(
-            favoritedPokemonStore: FavoritePokemonStore(
-                modelContext: ModelContext(container)
-            )
-        )
-    )
+    FavoritedPokemonView(store: FavoritePokemonStore(modelContext: ModelContext(container)))
 }

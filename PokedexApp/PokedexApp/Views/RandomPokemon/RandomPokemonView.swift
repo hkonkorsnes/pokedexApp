@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct RandomPokemonView: View {
-    @ObservedObject var viewModel: RandomPokemonViewModel
+    @StateObject var viewModel: RandomPokemonViewModel
     @Environment(\.modelContext) var modelContext
+
+    init() {
+        self._viewModel = StateObject(wrappedValue: RandomPokemonViewModel())
+    }
 
     var body: some View {
         NavigationStack {
@@ -21,11 +25,9 @@ struct RandomPokemonView: View {
 
                     NavigationLink(
                         destination: PokemonDetailView(
-                            viewModel: PokemonDetailViewModel(
                                 pokemon: randomPokemon,
-                                favoritedPokemonStore: FavoritePokemonStore(
+                                store: FavoritePokemonStore(
                                     modelContext: modelContext
-                                )
                             )
                         )
                     ) {
@@ -81,5 +83,5 @@ struct RandomPokemonView: View {
 }
 
 #Preview {
-    RandomPokemonView(viewModel: RandomPokemonViewModel())
+    RandomPokemonView()
 }
