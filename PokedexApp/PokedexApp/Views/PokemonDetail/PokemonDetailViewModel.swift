@@ -122,27 +122,33 @@ final class PokemonDetailViewModel: ObservableObject {
     // Connects Pokémon type to a color
     func color(forType type: String) -> Color {
         switch type.lowercased() {
+        case "normal":
+            return Color.gray
         case "fire":
             return Color.red
         case "water":
             return Color.blue
         case "grass":
             return Color.green
+        case "ice":
+            return Color.teal
         case "electric":
             return Color.yellow
         case "psychic":
-            return Color.purple
-        case "ice":
-            return Color.cyan
-        case "dragon":
-            return Color.orange
-        case "dark":
-            return Color.gray
-        case "fairy":
             return Color.pink
-        case "normal":
-            return Color.brown
+        case "dragon":
+            return Color.indigo
         case "poison":
+            return Color.purple
+        case "fighting":
+            return Color.brown
+        case "rock":
+            return Color.brown
+        case "flying":
+            return Color.mint
+        case "bug":
+            return Color.green
+        case "ghost":
             return Color.purple
         default:
             return Color.gray
