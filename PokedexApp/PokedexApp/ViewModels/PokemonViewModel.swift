@@ -21,20 +21,20 @@ final class PokemonViewModel: ObservableObject {
     }
     
     init() {
-        self.pokemonList = pokemonManager.getPokemon()
+        self.pokemonList = pokemonManager.fetchPokemon()
     }
     
-    func getPokemonIndex(pokemon: Pokemon) -> Int {
+    func fetchPokemonIndex(pokemon: Pokemon) -> Int {
         return pokemonDetails[pokemon.id]?.id ?? 0  // Access by String id
     }
     
-    func getDetails(pokemon: Pokemon, completion: @escaping (DetailedPokemon?) -> Void) {
+    func fetchDetails(pokemon: Pokemon, completion: @escaping (DetailedPokemon?) -> Void) {
         if let details = pokemonDetails[pokemon.id] {  // Access by String id
             completion(details)
             return
         }
         
-        pokemonManager.getDetailedPokemon(url: pokemon.url) { data in
+        pokemonManager.fetchDetailedPokemon(url: pokemon.url) { data in
             DispatchQueue.main.async {
                 if let data = data {
                     self.pokemonDetails[pokemon.id] = data  // Store using String id
@@ -46,7 +46,7 @@ final class PokemonViewModel: ObservableObject {
         }
     }
     
-    func getSpecies(url: String, completion: @escaping (PokemonSpecies?) -> Void) {
+    func fetchSpecies(url: String, completion: @escaping (PokemonSpecies?) -> Void) {
         guard let url = URL(string: url) else {
             completion(nil)
             return

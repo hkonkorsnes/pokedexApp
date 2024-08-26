@@ -36,7 +36,7 @@ struct FavoritedPokemonView: View {
                         HStack {
                             AsyncImage(
                                 url: URL(
-                                    string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(pokemonViewModel.getPokemonIndex(pokemon: pokemon)).png"
+                                    string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(pokemonViewModel.fetchPokemonIndex(pokemon: pokemon)).png"
                                 )
                             ) { image in
                                 image

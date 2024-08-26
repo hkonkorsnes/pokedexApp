@@ -16,7 +16,7 @@ struct RandomPokemonView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 20) {
+            VStack() {
                 if let randomPokemon, let url = pokemonImageURL {
                     blackedOutPokemonImage(url)
                         .padding()
@@ -66,7 +66,6 @@ struct RandomPokemonView: View {
             switch phase {
             case .empty:
                 ProgressView()
-                    .frame(width: 120, height: 120)
             case .success(let image):
                 image
                     .renderingMode(.template)
@@ -76,16 +75,14 @@ struct RandomPokemonView: View {
                     .shadow(radius: 10)
             case .failure:
                 ProgressView()
-                    .frame(width: 120, height: 120)
             @unknown default:
                 ProgressView()
-                    .frame(width: 120, height: 120)
             }
         }
     }
 
     // MARK: - Functions
-    private func getPokemonImageURL(id: String) -> String {
+    private func fetchPokemonImageURL(id: String) -> String {
         viewModel.isShiny
         ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/\(id).png"
         : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(id).png"
@@ -93,10 +90,10 @@ struct RandomPokemonView: View {
 
     private func randomizePokemon() {
         if let pokemon = viewModel.pokemonList.randomElement() {
-            viewModel.getDetails(pokemon: pokemon) { _ in
+            viewModel.fetchDetails(pokemon: pokemon) { _ in
                 self.randomPokemon = pokemon
                 self.randomPokemonID = pokemon.id  // Save the ID
-                self.pokemonImageURL = getPokemonImageURL(id: pokemon.id)
+                self.pokemonImageURL = fetchPokemonImageURL(id: pokemon.id)
             }
         }
     }
@@ -105,7 +102,7 @@ struct RandomPokemonView: View {
         if let randomPokemonID = randomPokemonID,
            let pokemon = viewModel.pokemonList.first(where: { $0.id == randomPokemonID }) {
             self.randomPokemon = pokemon
-            self.pokemonImageURL = getPokemonImageURL(id: pokemon.id)
+            self.pokemonImageURL = fetchPokemonImageURL(id: pokemon.id)
         } else {
             randomizePokemon()
         }

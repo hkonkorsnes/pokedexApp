@@ -27,7 +27,7 @@ struct PokedexCellView: View {
     }
 
     private var pokemonImageView: some View {
-        AsyncImage(url: URL(string: getPokemonImageURL())) { phase in
+        AsyncImage(url: URL(string: fetchPokemonImageURL())) { phase in
             switch phase {
             case .empty:
                 ProgressView().frame(width: dimensions, height: dimensions)
@@ -64,14 +64,14 @@ struct PokedexCellView: View {
         )
     }
 
-    private func getPokemonImageURL() -> String {
+    private func fetchPokemonImageURL() -> String {
         viewModel.isShiny
-            ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/\(viewModel.getPokemonIndex(pokemon: pokemon)).png"
-            : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(viewModel.getPokemonIndex(pokemon: pokemon)).png"
+            ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/\(viewModel.fetchPokemonIndex(pokemon: pokemon)).png"
+            : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(viewModel.fetchPokemonIndex(pokemon: pokemon)).png"
     }
 
     private func updateBackgroundColor() {
-        viewModel.getDetails(pokemon: pokemon) { details in
+        viewModel.fetchDetails(pokemon: pokemon) { details in
             if let primaryType = details?.types.first?.type.name {
                 backgroundColor = viewModel.color(forType: primaryType)
             } else {

@@ -26,7 +26,7 @@ struct PokemonDetailView: View {
                     PokemonDetailHeaderView(
                         pokemon: pokemon,
                         backgroundColor: pokemonViewModel.color(forType: details.types.first?.type.name ?? "unknown"),
-                        imageUrl: getPokemonImageURL()
+                        imageUrl: fetchPokemonImageURL()
                     )
 
                     PokemonDetailsTypesSectionView(types: details.types, viewModel: pokemonViewModel)
@@ -51,14 +51,14 @@ struct PokemonDetailView: View {
     }
 
     // MARK: - Helper Functions
-    private func getPokemonImageURL() -> String {
-        let index = pokemonViewModel.getPokemonIndex(pokemon: pokemon)
+    private func fetchPokemonImageURL() -> String {
+        let index = pokemonViewModel.fetchPokemonIndex(pokemon: pokemon)
         let baseUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
         return pokemonViewModel.isShiny ? "\(baseUrl)shiny/\(index).png" : "\(baseUrl)\(index).png"
     }
 
     private func fetchPokemonDetails() {
-        pokemonViewModel.getDetails(pokemon: pokemon) { details in
+        pokemonViewModel.fetchDetails(pokemon: pokemon) { details in
             if let details = details {
                 self.pokemonDetails = details
                 fetchPokemonSpecies(details.species.url)
@@ -69,7 +69,7 @@ struct PokemonDetailView: View {
     }
 
     private func fetchPokemonSpecies(_ url: String) {
-        pokemonViewModel.getSpecies(url: url) { species in
+        pokemonViewModel.fetchSpecies(url: url) { species in
             if let species = species {
                 self.pokemonSpecies = species
             } else {
