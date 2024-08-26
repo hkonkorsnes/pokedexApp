@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class RandomPokemonViewModel: ObservableObject {
+final class RandomPokemonViewModel: ObservableObject {
     private let pokemonManager = PokemonManager()
 
     @Published var randomPokemon: Pokemon?

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class PokedexViewModel: ObservableObject {
+final class PokedexViewModel: ObservableObject {
     private let pokemonManager = PokemonManager()
     private(set) var pokemonDetails: [String: DetailedPokemon] = [:]
 
