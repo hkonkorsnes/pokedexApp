@@ -40,7 +40,8 @@ git clone https://github.com/hkonkorsnes/pokedexApp.git
 
 * Evolution chain and evolution requirements
 * Support later Pokémon generations
-* Provide more data (stats, moves, etc) 
+* Provide more data (stats, moves, etc)
+* Better error handling and loading states
 
 ## Contact
 
