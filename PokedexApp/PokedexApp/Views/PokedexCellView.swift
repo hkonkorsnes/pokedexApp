@@ -10,7 +10,6 @@ import SwiftUI
 struct PokedexCellView: View {
     @EnvironmentObject var viewModel: PokemonViewModel
     let pokemon: Pokemon
-    var namespace: Namespace.ID
     @State private var backgroundColor: Color = .gray
 
     private let dimensions: Double = 160
@@ -34,7 +33,6 @@ struct PokedexCellView: View {
             case .success(let image):
                 image.resizable()
                     .scaledToFit()
-                    .matchedGeometryEffect(id: "\(pokemon.id)-image", in: namespace)
             case .failure:
                 ProgressView().frame(width: dimensions, height: dimensions)
             @unknown default:
@@ -50,7 +48,6 @@ struct PokedexCellView: View {
             .fontDesign(.rounded)
             .foregroundStyle(.white)
             .padding()
-            .matchedGeometryEffect(id: "\(pokemon.id)-text", in: namespace)
     }
 
     private var gradientBackground: some View {

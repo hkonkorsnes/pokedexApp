@@ -12,8 +12,6 @@ struct PokedexView: View {
     @Environment(\.modelContext) var modelContext
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
 
-    @Namespace private var animationNamespace
-
     private var columns: [GridItem] {
         if dynamicTypeSize.isAccessibilitySize {
             return [
@@ -38,9 +36,8 @@ struct PokedexView: View {
                                 )
                             ), pokemon: pokemon
                         )
-                        .navigationTransition(.zoom(sourceID: "pokemon", in: animationNamespace))
                     ) {
-                        PokedexCellView(pokemon: pokemon, namespace: animationNamespace)
+                        PokedexCellView(pokemon: pokemon)
                     }
                 }
             }

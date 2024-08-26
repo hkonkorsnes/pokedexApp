@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PokemonDetailHeaderView: View {
-    @Namespace private var detailAnimationNamespace
 
     let pokemon: Pokemon
     let backgroundColor: Color
@@ -50,7 +49,6 @@ struct PokemonDetailHeaderView: View {
                     .scaledToFill()
                     .frame(width: 270, height: 270)
                     .shadow(radius: 10)
-                    .matchedTransitionSource(id: "pokemon", in: detailAnimationNamespace)
             case .failure:
                 ProgressView()
                     .frame(width: 270, height: 270)
