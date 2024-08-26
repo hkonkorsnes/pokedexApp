@@ -39,7 +39,6 @@ git clone https://github.com/hkonkorsnes/pokedexApp.git
 ### I have some exciting features planned for future updates:
 
 * Evolution chain and evolution requirements
-* Async await
 * Support later Pokémon generations
 * Provide more data (stats, moves, etc) 
 
