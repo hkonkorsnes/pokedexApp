@@ -24,10 +24,10 @@ struct PokemonDetailView: View {
                     typesSection(types: details.types)
                     infoSection
                     detailsSection(details: details)
+                    Spacer()
                 } else {
                     ProgressView()
                 }
-                Spacer()
             }
         }
         .navigationTitle("\(viewModel.pokemon.name.capitalized) #\(viewModel.pokemon.id)")
@@ -35,6 +35,9 @@ struct PokemonDetailView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 favoriteButton
             }
+        }
+        .onAppear {
+            viewModel.onAppear()
         }
     }
 
@@ -84,8 +87,8 @@ struct PokemonDetailView: View {
                     .font(.subheadline)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
-                    .background(viewModel.color(forType: typeInfo.type.name).opacity(0.2))
-                    .foregroundStyle(viewModel.color(forType: typeInfo.type.name))
+                    .background(typeInfo.type.color().opacity(0.2))
+                    .foregroundStyle(typeInfo.type.color())
                     .cornerRadius(20)
             }
         }
@@ -150,10 +153,10 @@ struct PokemonDetailView: View {
 
     private var favoriteButton: some View {
         Button(action: {
-            viewModel.toggleFavoritePokemon(viewModel.pokemon)
+            viewModel.toggleFavoritePokemon()
         }) {
-            Image(systemName: viewModel.isPokemonFavorited(viewModel.pokemon) ? "heart.fill" : "heart")
-                .foregroundStyle(viewModel.isPokemonFavorited(viewModel.pokemon) ? .red : .gray)
+            Image(systemName: viewModel.isPokemonFavorited() ? "heart.fill" : "heart")
+                .foregroundStyle(viewModel.isPokemonFavorited() ? .red : .gray)
         }
     }
     

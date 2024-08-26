@@ -34,7 +34,7 @@ final class RandomPokemonViewModel: ObservableObject {
         self.pokemonImageURL = fetchPokemonImageURL(id: pokemon.id)
     }
 
-    func loadRandomPokemon() {
+    func loadInitialRandomPokemon() {
         guard randomPokemon == nil else { return }
         randomizePokemon()
     }

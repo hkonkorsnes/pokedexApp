@@ -1,7 +1,9 @@
 import SwiftUI
 
 final class PokemonDetailViewModel: ObservableObject {
+
     let pokemon: Pokemon
+    private var store: FavoritePokemonStore
     private let pokemonManager = PokemonManager()
 
     @Published var pokemonDetails: DetailedPokemon? = nil
@@ -11,8 +13,6 @@ final class PokemonDetailViewModel: ObservableObject {
     @Published var backgroundColor: Color = .gray
 
     @AppStorage("isShiny") var isShiny = false
-
-    private var store: FavoritePokemonStore
 
     init(pokemon: Pokemon, favoritedPokemonStore: FavoritePokemonStore) {
         self.pokemon = pokemon
@@ -25,13 +25,13 @@ final class PokemonDetailViewModel: ObservableObject {
         favoritedPokemon = store.favorites
     }
 
-    func addFavorite(pokemon: Pokemon) {
+    func addFavorite() {
         store.save(pokemon: pokemon)
         favoritedPokemon = store.favorites
     }
 
-    func toggleFavoritePokemon(_ pokemon: Pokemon) {
-        if isPokemonFavorited(pokemon) {
+    func toggleFavoritePokemon() {
+        if isPokemonFavorited() {
             store.delete(pokemon: pokemon)
         } else {
             store.save(pokemon: pokemon)
@@ -41,10 +41,10 @@ final class PokemonDetailViewModel: ObservableObject {
         favoritedPokemon = store.favorites
     }
 
-    func isPokemonFavorited(_ pokemonToCheck: Pokemon) -> Bool {
+    func isPokemonFavorited() -> Bool {
         store.fetchPokemon()
         return store.favorites.contains { pokemon in
-            pokemonToCheck.id == pokemon.id
+            self.pokemon.id == pokemon.id
         }
     }
 
@@ -84,46 +84,10 @@ final class PokemonDetailViewModel: ObservableObject {
         return await pokemonManager.fetchSpecies(url: url)
     }
 
-    // Connects Pokémon type to a color
-    func color(forType type: String) -> Color {
-        switch type.lowercased() {
-        case "normal":
-            return Color.gray
-        case "fire":
-            return Color.red
-        case "water":
-            return Color.blue
-        case "grass":
-            return Color.green
-        case "ice":
-            return Color.teal
-        case "electric":
-            return Color.yellow
-        case "psychic":
-            return Color.pink
-        case "dragon":
-            return Color.indigo
-        case "poison":
-            return Color.purple
-        case "fighting":
-            return Color.brown
-        case "rock":
-            return Color.brown
-        case "flying":
-            return Color.mint
-        case "bug":
-            return Color.green
-        case "ghost":
-            return Color.purple
-        default:
-            return Color.gray
-        }
-    }
-
     func updateBackgroundColor() {
         guard let pokemonDetails else { return }
-        if let primaryType = pokemonDetails.types.first?.type.name {
-            backgroundColor = color(forType: primaryType)
+        if let primaryType = pokemonDetails.types.first?.type {
+            backgroundColor = primaryType.color()
         } else {
             backgroundColor = .gray
         }

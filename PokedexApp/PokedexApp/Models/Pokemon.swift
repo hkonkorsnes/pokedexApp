@@ -75,6 +75,8 @@ struct PokemonType: Codable {
 struct TypeDetail: Codable {
     let name: String
     let url: String
+
+    
 }
 
 // MARK: - Structures for Species Data

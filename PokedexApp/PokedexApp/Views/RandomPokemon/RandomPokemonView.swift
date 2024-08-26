@@ -16,47 +16,45 @@ struct RandomPokemonView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            VStack() {
-                if let randomPokemon = viewModel.randomPokemon, let url = viewModel.pokemonImageURL {
-                    blackedOutPokemonImage(url)
-                        .padding()
-                    Spacer()
+        VStack() {
+            if let randomPokemon = viewModel.randomPokemon, let url = viewModel.pokemonImageURL {
+                blackedOutPokemonImage(url)
+                    .padding()
+                Spacer()
 
-                    NavigationLink(
-                        destination: PokemonDetailView(
-                                pokemon: randomPokemon,
-                                store: FavoritePokemonStore(
-                                    modelContext: modelContext
-                            )
+                NavigationLink(
+                    destination: PokemonDetailView(
+                        pokemon: randomPokemon,
+                        store: FavoritePokemonStore(
+                            modelContext: modelContext
                         )
-                    ) {
-                        Text("Reveal Pokémon \(Image(systemName: "chevron.right"))")
-                            .font(.headline)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(.blue)
-                            .foregroundColor(.white)
-                            .clipShape(Capsule())
-                    }
-                } else {
-                    Text("Press the button to show a random Pokémon")
+                    )
+                ) {
+                    Text("Reveal Pokémon \(Image(systemName: "chevron.right"))")
                         .font(.headline)
                         .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(.blue)
+                        .foregroundColor(.white)
+                        .clipShape(Capsule())
+                }
+            } else {
+                Text("Press the button to show a random Pokémon")
+                    .font(.headline)
+                    .padding()
+            }
+        }
+        .padding()
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: viewModel.randomizePokemon) {
+                    Image(systemName: "arrow.counterclockwise")
                 }
             }
-            .padding()
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: viewModel.randomizePokemon) {
-                        Image(systemName: "arrow.counterclockwise")
-                    }
-                }
-            }
-            .navigationTitle("Who's that Pokémon?")
-            .onAppear {
-                viewModel.loadRandomPokemon()
-            }
+        }
+        .navigationTitle("Who's that Pokémon?")
+        .onAppear {
+            viewModel.loadInitialRandomPokemon()
         }
     }
 

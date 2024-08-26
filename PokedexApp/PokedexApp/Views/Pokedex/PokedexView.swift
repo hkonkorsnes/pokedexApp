@@ -46,7 +46,6 @@ struct PokedexView: View {
                 }
             }
             .padding()
-            .navigationTitle("Pokédex")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {

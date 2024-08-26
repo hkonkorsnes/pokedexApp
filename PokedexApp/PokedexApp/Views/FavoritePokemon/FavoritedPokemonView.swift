@@ -31,23 +31,7 @@ struct FavoritedPokemonView: View {
                             )
                         )
                     ) {
-                        HStack {
-                            AsyncImage(
-                                url: URL(
-                                    string: viewModel.fetchPokemonImageURL(id: pokemon.id)
-                                )
-                            ) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                            } placeholder: {
-                                ProgressView()
-                                    .frame(width: 50, height: 50)
-                            }
-                            Text(pokemon.name.capitalized)
-                                .font(.headline)
-                        }
+                        favoritePokemonCell(pokemon: pokemon)
                     }
                 }
                 .listStyle(.insetGrouped)
@@ -56,6 +40,26 @@ struct FavoritedPokemonView: View {
         .navigationTitle("Favorite Pokémon")
         .onAppear {
             viewModel.onAppear()
+        }
+    }
+
+    private func favoritePokemonCell(pokemon: Pokemon) -> some View {
+        HStack {
+            AsyncImage(
+                url: URL(
+                    string: viewModel.fetchPokemonImageURL(id: pokemon.id)
+                )
+            ) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
+            } placeholder: {
+                ProgressView()
+                    .frame(width: 50, height: 50)
+            }
+            Text(pokemon.name.capitalized)
+                .font(.headline)
         }
     }
 

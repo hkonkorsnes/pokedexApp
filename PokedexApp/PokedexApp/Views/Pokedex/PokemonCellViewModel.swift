@@ -37,45 +37,10 @@ final class PokemonCellViewModel: ObservableObject {
         : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(pokemon.id).png"
     }
 
-    func color(forType type: String) -> Color {
-        switch type.lowercased() {
-        case "normal":
-            return Color.gray
-        case "fire":
-            return Color.red
-        case "water":
-            return Color.blue
-        case "grass":
-            return Color.green
-        case "ice":
-            return Color.teal
-        case "electric":
-            return Color.yellow
-        case "psychic":
-            return Color.pink
-        case "dragon":
-            return Color.indigo
-        case "poison":
-            return Color.purple
-        case "fighting":
-            return Color.brown
-        case "rock":
-            return Color.brown
-        case "flying":
-            return Color.mint
-        case "bug":
-            return Color.green
-        case "ghost":
-            return Color.purple
-        default:
-            return Color.gray
-        }
-    }
-
     func updateBackgroundColor() {
         guard let details = detailedPokemon else { return }
-        if let primaryType = details.types.first?.type.name {
-            backgroundColor = color(forType: primaryType)
+        if let primaryType = details.types.first?.type {
+            backgroundColor = primaryType.color()
         } else {
             backgroundColor = .gray
         }

@@ -9,17 +9,17 @@ import SwiftUI
 
 struct PokedexTabView: View {
     @Environment(\.modelContext) var modelContext
-    @Environment(\.dynamicTypeSize) var dynamicTypeSize
-    
+
     var body: some View {
         TabView {
             NavigationStack {
                 PokedexView()
+                    .navigationTitle("Pokédex")
             }
             .tabItem {
                 Label("Pokédex", systemImage: "list.dash")
             }
-            
+
             NavigationStack {
                 RandomPokemonView()
                     .navigationTitle("Who's that Pokémon?")
@@ -27,10 +27,10 @@ struct PokedexTabView: View {
             .tabItem {
                 Label("Who", systemImage: "person.fill.questionmark")
             }
-            
+
             NavigationStack {
                 FavoritedPokemonView(store: FavoritePokemonStore(modelContext: modelContext))
-                .navigationTitle("Saved Pokémon")
+                    .navigationTitle("Saved Pokémon")
             }
             .tabItem {
                 Label("Favorites", systemImage: "heart.fill")
